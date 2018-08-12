@@ -11,6 +11,7 @@
     using System.Threading.Tasks;
     using AspNetCoreIntro.Data.Models;
     using System;
+    using Infrastructure.Extensions;
 
     public class Startup
     {
@@ -22,55 +23,46 @@
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.Use((context, next) =>
-            {
-                context.RequestServices.GetRequiredService<CatsDbContext>().Database.Migrate();
-                return next();
-            });
-
+            app.UseDatabaseMigration();
             app.UseStaticFiles();
+            app.UseHtmlContentType();
+            app.UseRequestHandlers(); 
 
-            app.Use((context, next) =>
-            {
-                context.Response.Headers.Add("Content-Type", "text/html");
-                return next();
-            });
+            //app.MapWhen(
+            //    ctx => ctx.Request.Path.Value == "/"
+            //        && ctx.Request.Method == HttpMethod.Get,
+            //    home =>
+            //    {
+            //        home.Run(async (context) =>
+            //        {
+            //            await context.Response.WriteAsync($"<h1>{env.ApplicationName}</h1>");
 
-            app.MapWhen(
-                ctx => ctx.Request.Path.Value == "/"
-                    && ctx.Request.Method == HttpMethod.Get,
-                home =>
-                {
-                    home.Run(async (context) =>
-                    {
-                        await context.Response.WriteAsync($"<h1>{env.ApplicationName}</h1>");
+            //            var db = context.RequestServices.GetRequiredService<CatsDbContext>();
 
-                        var db = context.RequestServices.GetRequiredService<CatsDbContext>();
+            //            var catsData = db
+            //                .Cats
+            //                .Select(c => new
+            //                {
+            //                    c.Id,
+            //                    c.Name
+            //                })
+            //                .ToList();
 
-                        var catsData = db
-                            .Cats
-                            .Select(c => new
-                            {
-                                c.Id,
-                                c.Name
-                            })
-                            .ToList();
+            //            await context.Response.WriteAsync("<ul>");
 
-                        await context.Response.WriteAsync("<ul>");
+            //            foreach (var cat in catsData)
+            //            {
+            //                await context.Response.WriteAsync($@"<li><a href=""/cats/{cat.Id}"">{cat.Name}</a></li>");
+            //            }
 
-                        foreach (var cat in catsData)
-                        {
-                            await context.Response.WriteAsync($@"<li><a href=""/cats/{cat.Id}"">{cat.Name}</a></li>");
-                        }
+            //            await context.Response.WriteAsync("</ul>");
 
-                        await context.Response.WriteAsync("</ul>");
-
-                        await context.Response.WriteAsync(@"
-                            <form action=""/cat/add"">
-                                <input type=""submit"" value=""Add Cat"" />
-                            </form>");
-                    });
-                });
+            //            await context.Response.WriteAsync(@"
+            //                <form action=""/cat/add"">
+            //                    <input type=""submit"" value=""Add Cat"" />
+            //                </form>");
+            //        });
+            //    });
 
             app.MapWhen(
                 req => req.Request.Path.Value == "/cat/add",
@@ -131,7 +123,12 @@
                 {
                     catDetails.Run(async (context) =>
                     {
-                        var urlParths = context.Request.Path.Value.Split("/", StringSplitOptions.RemoveEmptyEntries);
+                        var urlParths = context
+                            .Request
+                            .Path
+                            .Value
+                            .Split("/", StringSplitOptions.RemoveEmptyEntries);
+
                         if (urlParths.Length < 2)
                         {
                             context.Response.Redirect("/");

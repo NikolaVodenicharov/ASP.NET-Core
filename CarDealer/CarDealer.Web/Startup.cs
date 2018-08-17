@@ -9,6 +9,8 @@ namespace CarDealer.Web
     using CarDealer.Web.Services;
     using CarDealer.Data;
     using CarDealer.Data.Models;
+    using CarDealer.Services;
+    using CarDealer.Services.Implementations;
 
     public class Startup
     {
@@ -31,6 +33,9 @@ namespace CarDealer.Web
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddTransient<ICustomerService, CustomerService>();
+
 
             services.AddMvc();
         }
@@ -55,6 +60,11 @@ namespace CarDealer.Web
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "customer",
+                    template: "customer/all/{order}",
+                    defaults: new { controller = "Customer", action = "All" });
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

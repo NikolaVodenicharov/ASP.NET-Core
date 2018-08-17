@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using CarDealer.Web.Models;
-using CarDealer.Web.Models.AccountViewModels;
-using CarDealer.Web.Services;
-using CarDealer.Data.Models;
-
-namespace CarDealer.Web.Controllers
+﻿namespace CarDealer.Web.Controllers
 {
+    using System;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using CarDealer.Web.Models.AccountViewModels;
+    using CarDealer.Web.Services;
+    using CarDealer.Data.Models;
+
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller

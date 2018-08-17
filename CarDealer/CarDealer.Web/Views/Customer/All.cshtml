@@ -1,0 +1,39 @@
+﻿@model IEnumerable<CustomerModel>
+
+@{
+    ViewData["Title"] = "All customers";
+}
+
+<h2>All</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Birthdate
+            </th>
+            <th>
+                Is young driver
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>
+                    @customer.Name
+                </td>
+                <td>
+                    @customer.BirthDate
+                </td>
+                <td>
+                    @(customer.IsYoungDriver ? "Yes" : "No")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

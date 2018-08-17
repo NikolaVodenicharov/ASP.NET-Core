@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace AspNetCoreIntro
+﻿namespace AspNetCoreIntro
 {
     public class AppSettings
     {
+        public const string DatabaseConnectionString = "Server=.\\SQLEXPRESS;Database=CatsServerDb;Integrated Security=true";
     }
 }

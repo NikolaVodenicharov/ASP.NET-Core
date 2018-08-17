@@ -3,6 +3,7 @@
     using AspNetCoreIntro.Handlers;
     using AspNetCoreIntro.Middlewere;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Http;
     using System;
     using System.Linq;
     using System.Reflection;
@@ -38,6 +39,15 @@
             }
 
             return builder;
+        }
+
+        public static void UseNotFoundHandler(this IApplicationBuilder builder)
+        {
+            builder.Run(async (context) =>
+            {
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsync("404 Page was not found :/");
+            });
         }
     }
 }

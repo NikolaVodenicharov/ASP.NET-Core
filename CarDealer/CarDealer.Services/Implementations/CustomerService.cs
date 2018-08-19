@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using CarDealer.Data;
+    using CarDealer.Services.Enums;
     using CarDealer.Services.Models;
 
     public class CustomerService : ICustomerService

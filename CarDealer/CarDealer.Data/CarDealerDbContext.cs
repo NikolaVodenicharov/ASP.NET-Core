@@ -13,6 +13,7 @@
         public DbSet<PartCar> PartCars { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public object Where { get; set; }
 
         public CarDealerDbContext(DbContextOptions<CarDealerDbContext> options)
             : base(options)

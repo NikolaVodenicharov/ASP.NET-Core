@@ -1,0 +1,42 @@
+﻿@using CarDealer.Web.Models.Suppliers
+
+@model SuppliersViewModel
+
+@{
+    ViewData["Title"] = "GetSuppliers";
+}
+
+<h2>Get @Model.SupplierType suppliers</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Number of parts
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var supplier in Model.Suppliers)
+        {
+            <tr>
+                <td>
+                    @supplier.Id
+                </td>
+                <td>
+                    @supplier.Name
+                </td>
+                <td>
+                    @supplier.PartsCount
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

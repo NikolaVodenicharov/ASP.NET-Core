@@ -33,9 +33,9 @@ namespace CarDealer.Web
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-
             services.AddTransient<ICustomerService, CustomerService>();
-
+            services.AddTransient<ICarService, CarService>();
+            services.AddTransient<ISupplierService, SupplierService>();
 
             services.AddMvc();
         }
@@ -64,6 +64,16 @@ namespace CarDealer.Web
                     name: "customer",
                     template: "customer/all/{order}",
                     defaults: new { controller = "Customer", action = "All" });
+
+                routes.MapRoute(
+                    name: "car",
+                    template: "car/{make}",
+                    defaults: new { controller = "Car", action = "GetCarsByMake" });
+
+                routes.MapRoute(
+                    name: "supplier",
+                    template: "supplier/{supplierType}",
+                    defaults: new { controller = "Supplier", action = "GetSuppliers" });
 
                 routes.MapRoute(
                     name: "default",

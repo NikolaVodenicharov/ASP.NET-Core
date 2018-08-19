@@ -1,7 +1,7 @@
 ﻿namespace CarDealer.Web.Controllers
 {
     using CarDealer.Services;
-    using CarDealer.Services.Models;
+    using CarDealer.Services.Enums;
     using Microsoft.AspNetCore.Mvc;
     using System;
 

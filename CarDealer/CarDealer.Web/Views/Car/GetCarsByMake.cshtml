@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CarModel>
+
+@{
+    ViewData["Title"] = "GetCarsByMake";
+}
+
+<h2>@Model.First().Make  cars</h2>
+<br />
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Make
+            </th>
+            <th>
+                Model
+            </th>
+            <th>
+                Travelled distance
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>
+                    @car.Make
+                </td>
+                <td>
+                    @car.Model
+                </td>
+                <td>
+                    @car.TravelledDistance
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

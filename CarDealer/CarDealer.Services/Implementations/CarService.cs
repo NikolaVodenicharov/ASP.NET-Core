@@ -4,7 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using CarDealer.Data;
-    using CarDealer.Services.Models;
+    using CarDealer.Services.Models.Cars;
+    using CarDealer.Services.Models.Parts;
 
     public class CarService : ICarService
     {
@@ -28,6 +29,25 @@
                     Model = c.Model,
                     TravelledDistance = c.TravelledDistance
                 });
+        }
+
+        public IEnumerable<CarWithPartsModel> GetCarsWithParts()
+        {
+            return db
+                .Cars
+                .Select(c => new CarWithPartsModel
+                {
+                    Make = c.Make,
+                    Model = c.Model,
+                    TravelledDistance = c.TravelledDistance,
+                    Parts = c.PartCars.Select(p => new PartPriceModel
+                    {
+                        Name = p.Part.Name,
+                        Price = p.Part.Price
+                    })
+                    .ToList()
+                })
+                .ToList();
         }
     }
 }

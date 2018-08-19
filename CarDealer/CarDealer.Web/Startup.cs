@@ -66,11 +66,6 @@ namespace CarDealer.Web
                     defaults: new { controller = "Customer", action = "All" });
 
                 routes.MapRoute(
-                    name: "car",
-                    template: "car/{make}",
-                    defaults: new { controller = "Car", action = "GetCarsByMake" });
-
-                routes.MapRoute(
                     name: "supplier",
                     template: "supplier/{supplierType}",
                     defaults: new { controller = "Supplier", action = "GetSuppliers" });

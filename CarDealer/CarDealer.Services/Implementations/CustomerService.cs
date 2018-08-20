@@ -6,6 +6,8 @@
     using CarDealer.Data;
     using CarDealer.Services.Enums;
     using CarDealer.Services.Models;
+    using CarDealer.Services.Models.Cars;
+    using CarDealer.Services.Models.Customers;
 
     public class CustomerService : ICustomerService
     {
@@ -43,6 +45,51 @@
                     BirthDate = c.BirthDate,
                     IsYoungDriver = c.IsYoungDriver
                 });
+        }
+
+
+        public CustomerBoughtCarsModel CustomerCarPurchases(int id)
+        {
+            var customerModel = db
+                .Customers
+                .Where(c => c.Id == id)
+                .Select(c => new CustomerModel
+                {
+                    Name = c.Name,
+                    IsYoungDriver = c.IsYoungDriver,
+                    BirthDate = c.BirthDate
+                })
+                .FirstOrDefault();
+                
+            var carsPartsPriceAndDiscounts = db
+                .Customers
+                .Where(c => c.Id == id)
+                .Select(cu => cu
+                    .Sales
+                    .Select(s => new CarPriceAndDiscount
+                    {
+                        CarPrice = s.Car.PartCars.Select(ca => ca.Part.Price).Sum(),
+                        DiscountPercentage = s.Discount
+                    }))
+                .FirstOrDefault();
+
+            var carsCount = carsPartsPriceAndDiscounts.Count();
+
+            decimal carsTotalPrice = 0;
+            foreach (var car in carsPartsPriceAndDiscounts)
+            {
+                var carPrice = car.CarPrice * (1 - (decimal)car.DiscountPercentage - (customerModel.IsYoungDriver ? 0.05m : 0));
+                carsTotalPrice += carPrice;
+            }
+
+            var result = new CustomerBoughtCarsModel
+            {
+                Name = customerModel.Name,
+                CarsCount = carsCount,
+                TotalSpendMoneyOnCars = carsTotalPrice
+            };
+
+            return result;
         }
     }
 }

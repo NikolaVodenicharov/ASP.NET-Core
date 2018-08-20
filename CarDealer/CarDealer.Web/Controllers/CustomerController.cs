@@ -17,11 +17,21 @@
         public IActionResult All(string order)
         {
             var orderDirection = OrderDirection.Ascending;
-            Enum.TryParse(order, true, out orderDirection);
+
+            if (order != null)
+            {
+                Enum.TryParse(order, true, out orderDirection);
+            }
 
             var customers = this.customerService.OrderedCustomers(orderDirection);
 
             return View(customers);
+        }
+
+        [Route("customer/{id}")]
+        public IActionResult CustomerCarPurchases (int id)
+        {
+            return View(this.customerService.CustomerCarPurchases(id));
         }
     }
 }

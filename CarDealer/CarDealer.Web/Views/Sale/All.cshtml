@@ -1,0 +1,52 @@
+﻿@model IEnumerable<SaleDetailsModel>
+@{
+    ViewData["Title"] = "All";
+}
+
+<h2>All</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Customer
+            </th>
+            <th>
+                Car price
+            </th>
+            <th>
+                Car price with discount
+            </th>
+            <th>
+                Discount (without percentage for young driver)
+            </th>
+            <th>
+                Car details
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sale in Model)
+        {
+        <tr>
+            <td>
+                @sale.CustomerName
+            </td>
+            <td>
+                @sale.CarPrice
+            </td>
+            <td>
+                @sale.DiscountedCarPrice
+            </td>
+            <td>
+                @sale.Discount
+            </td>
+            <td>
+                @sale.CarModel.Make
+                @sale.CarModel.Model,
+                @sale.CarModel.TravelledDistance km
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

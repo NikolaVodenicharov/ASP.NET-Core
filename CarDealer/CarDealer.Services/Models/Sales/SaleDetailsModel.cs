@@ -2,19 +2,18 @@
 {
     using CarDealer.Services.Models.Cars;
 
-    public class SaleDetailsModel
+    public class SaleDetailsModel : SaleModel
     {
-        public double Discount { get; set; }
+        public int Id { get; set; }
 
         public string CustomerName { get; set; }
 
         public bool IsYoungDriver { get; set; }
 
-        public CarModel CarModel { get; set; }
-
-        public decimal CarPrice { get; set; }
+        public double TotalDiscountPercentage 
+            => this.DiscountPercentage + (this.IsYoungDriver ? 0.05 : 0);
 
         public decimal DiscountedCarPrice
-            => this.CarPrice * (1 - (decimal)this.Discount - (this.IsYoungDriver ? 0.05m : 0));
+            => this.CarPrice * (1 - (decimal)this.TotalDiscountPercentage);
     }
 }

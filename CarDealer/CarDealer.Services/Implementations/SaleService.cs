@@ -22,17 +22,33 @@
                 .Sales
                 .Select(s => new SaleDetailsModel
                 {
-                    Discount = s.Discount,
+                    Id = s.Id,
+                    DiscountPercentage = s.Discount,
                     CustomerName = s.Customer.Name,
                     IsYoungDriver = s.Customer.IsYoungDriver,
+                    CarPrice = s.Car.PartCars.Select(pc => pc.Part.Price).Sum()
+                });
+        }
+
+        public SaleCarDetailsModel Details (int id)
+        {
+            return db
+                .Sales
+                .Where(s => s.Id == id)
+                .Select(s => new SaleCarDetailsModel
+                {
+                    DiscountPercentage = s.Discount,
+                    CustomerName = s.Customer.Name,
+                    IsYoungDriver = s.Customer.IsYoungDriver,
+                    CarPrice = s.Car.PartCars.Select(pc => pc.Part.Price).Sum(),
                     CarModel = new CarModel
                     {
                         Make = s.Car.Make,
                         Model = s.Car.Model,
                         TravelledDistance = s.Car.TravelledDistance
-                    },
-                    CarPrice = s.Car.PartCars.Select(pc => pc.Part.Price).Sum(),
-                });
+                    }
+                })
+                .FirstOrDefault();
         }
     }
 }

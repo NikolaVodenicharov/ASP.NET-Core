@@ -18,7 +18,7 @@
                 Car price with discount
             </th>
             <th>
-                Discount (without percentage for young driver)
+                Discount
             </th>
             <th>
                 Car details
@@ -33,18 +33,17 @@
                 @sale.CustomerName
             </td>
             <td>
-                @sale.CarPrice
+                @sale.CarPrice.ToPrice()
             </td>
             <td>
-                @sale.DiscountedCarPrice
+                @sale.DiscountedCarPrice.ToPrice()
             </td>
             <td>
-                @sale.Discount
+                @sale.TotalDiscountPercentage.ToPercentage()
             </td>
             <td>
-                @sale.CarModel.Make
-                @sale.CarModel.Model,
-                @sale.CarModel.TravelledDistance km
+                <a class="btn btn-sm btn-default" href="/sale/@sale.Id">More details</a>
+              
             </td>
         </tr>
         }

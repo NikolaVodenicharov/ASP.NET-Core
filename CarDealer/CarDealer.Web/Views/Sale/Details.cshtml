@@ -1,0 +1,17 @@
+﻿@model SaleCarDetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<pre>
+    Customer: @Model.CustomerName
+
+    Car: @Model.CarModel.Model @Model.CarModel.Make - @Model.CarModel.TravelledDistance km
+
+    Car price: @Model.CarPrice.ToPrice()
+
+    Discount percentage: @string.Format($"{(Model.TotalDiscountPercentage * 100):F2}")%
+
+    Car price with discount: @Model.DiscountedCarPrice.ToString("F2")
+</pre>

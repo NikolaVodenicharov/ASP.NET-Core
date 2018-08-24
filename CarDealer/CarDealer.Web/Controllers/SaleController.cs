@@ -19,5 +19,11 @@
         {
             return View(saleService.All());
         }
+
+        [Route("{id}")]
+        public IActionResult Details(int id)
+        {
+            return View(saleService.Details(id));
+        }
     }
 }

@@ -6,5 +6,7 @@
     public interface ISaleService
     {
         IEnumerable<SaleDetailsModel> All();
+
+        SaleCarDetailsModel Details(int id);
     }
 }

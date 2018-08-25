@@ -18,7 +18,11 @@
         public IActionResult GetSuppliers(string supplierType)
         {
             var supplierTypeEnum = SupplierType.Local;
-            Enum.TryParse(supplierType, true, out supplierTypeEnum);
+
+            if (supplierType != null)
+            {
+                Enum.TryParse(supplierType, true, out supplierTypeEnum);
+            }
 
             var supplierViewModel = new SuppliersViewModel
             {

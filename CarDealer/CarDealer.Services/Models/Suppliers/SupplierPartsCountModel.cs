@@ -1,6 +1,6 @@
 ﻿namespace CarDealer.Services.Models
 {
-    public class SupplierModel
+    public class SupplierPartsCountModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

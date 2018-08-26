@@ -19,7 +19,7 @@
                 Number of parts
             </th>
             <th>
-                Add part
+                Part options
             </th>
         </tr>
     </thead>
@@ -37,7 +37,8 @@
                     @supplier.PartsCount
                 </td>
                 <td>
-                    <a class="btn btn-sm btn-default" href="/part/add/@supplier.Id">Add</a>
+                    <a class="btn btn-sm btn-success" href="/part/add/@supplier.Id">Add</a>
+                    <a class="btn btn-sm btn-default" href="/part/GetAllBySupplier/@supplier.Id">Details</a>
                 </td>
             </tr>
         }

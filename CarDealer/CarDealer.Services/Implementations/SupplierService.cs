@@ -6,6 +6,7 @@
     using CarDealer.Data;
     using CarDealer.Services.Enums;
     using CarDealer.Services.Models;
+    using CarDealer.Services.Models.Suppliers;
 
     public class SupplierService : ISupplierService
     {
@@ -16,14 +17,28 @@
             this.db = db;
         }
 
-        public IEnumerable<SupplierModel> GetSuppliers(SupplierType supplierType)
+        public SupplierModel GetById(int id)
+        {
+            return db
+                .Suppliers
+                .Where(s => s.Id == id)
+                .Select(s => new SupplierModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    SupplierType = (s.IsImporter ? SupplierType.Importer : SupplierType.Local)
+                })
+                .FirstOrDefault();
+        }
+
+        public IEnumerable<SupplierPartsCountModel> GetSuppliers(SupplierType supplierType)
         {
             var isImporter = supplierType == SupplierType.Importer;
 
             return db
                 .Suppliers
                 .Where(s => s.IsImporter == isImporter)
-                .Select(s => new SupplierModel
+                .Select(s => new SupplierPartsCountModel
                 {
                     Id = s.Id,
                     Name = s.Name,

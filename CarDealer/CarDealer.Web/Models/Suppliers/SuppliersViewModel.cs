@@ -8,7 +8,7 @@
     public class SuppliersViewModel
     {
         public SupplierType SupplierType { get; set; }
-        public IEnumerable<SupplierModel> Suppliers { get; set; }
+        public IEnumerable<SupplierPartsCountModel> Suppliers { get; set; }
 
     }
 }

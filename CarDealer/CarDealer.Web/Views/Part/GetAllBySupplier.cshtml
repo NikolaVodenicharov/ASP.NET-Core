@@ -1,0 +1,53 @@
+﻿@model SupplierPartsModel
+
+@{
+    ViewData["Title"] = "Get all parts by supplier";
+}
+
+<h2>@Model.Suppler.SupplierType supplier - @Model.Suppler.Name</h2>
+<br />
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Part name
+            </th>
+            <th>
+                Part price
+            </th>
+            <th>
+                Part quantity
+            </th>
+            <th>
+                Part options
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (PartModel part in Model.Parts)
+        {
+            <tr>
+                <td>
+                    @part.Name
+                </td>
+                <td>
+                    @part.Price
+                </td>
+                <td>
+                    @part.Quantity
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-warning" href="/part/edit/@Model.Suppler.Id/@part.Id">Edit</a>
+                    <a class="btn btn-sm btn-danger" href="/part/delete/@Model.Suppler.Id/@part.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+
+<div>
+    Add new part
+    <a class="btn btn-sm btn-success" href="/part/add/@Model.Suppler.Id">Add</a>
+</div>

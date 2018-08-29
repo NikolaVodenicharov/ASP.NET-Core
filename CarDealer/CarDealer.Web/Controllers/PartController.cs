@@ -30,6 +30,11 @@
         [Route(nameof(Add) + "/{supplierId}")]
         public IActionResult Add(int supplierId, PartFormModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             this.partService.Add(
                 model.Name,
                 model.Price,
@@ -75,7 +80,6 @@
             return RedirectToAction(nameof(GetAllBySupplier), supplierId);
         }
 
-
         [Route(nameof(GetAllBySupplier) + "/{supplierId}")] 
         public IActionResult GetAllBySupplier(int supplierId)
         {
@@ -93,13 +97,5 @@
         {
             return View(this.partService.GetAll());
         }
-
-        public IActionResult ById(int id)
-        {
-            var part = partService.GetById(id);
-            return View(part);
-        }
-
-
     }
 }

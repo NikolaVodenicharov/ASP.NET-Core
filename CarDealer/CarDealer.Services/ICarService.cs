@@ -6,7 +6,10 @@
 
     public interface ICarService
     {
+        void Add(string make, string model, long travelledDistance);
+
         IEnumerable<CarModel> GetCarsByMake(string make);
+
         IEnumerable<CarWithPartsModel> GetCarsWithParts();
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace CarDealer.Web.Controllers
 {
     using CarDealer.Services;
+    using CarDealer.Web.Models.Cars;
     using Microsoft.AspNetCore.Mvc;
-    using System;
 
     [Route("car")]
     public class CarController : Controller
@@ -14,16 +14,40 @@
             this.carService = carService;
         }
 
-        [Route("{make}", Order = 2)]
-        public IActionResult GetCarsByMake(string make)
+        [Route(nameof(Add))]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route(nameof(Add))]
+        public IActionResult Add(CarFormModel carFormModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(carFormModel);
+            }
+
+            this.carService.Add(
+                carFormModel.Make,
+                carFormModel.Model,
+                carFormModel.TravelledDistance);
+
+            return RedirectToAction(nameof(CarsByMake), "opel");
+
+        }
+
+        [Route(nameof(CarsByMake) + "/{make}")]
+        public IActionResult CarsByMake(string make)
         {
             var cars = this.carService.GetCarsByMake(make);
 
             return View(cars);
         }
 
-        [Route("parts", Order = 1)]
-        public IActionResult GetCarsWithParts()
+        [Route(nameof(CarsWithParts))]
+        public IActionResult CarsWithParts()
         {
             return View(this.carService.GetCarsWithParts());
         }

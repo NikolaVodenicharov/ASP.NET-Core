@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using CarDealer.Data;
+    using CarDealer.Data.Models;
     using CarDealer.Services.Models.Cars;
     using CarDealer.Services.Models.Parts;
 
@@ -14,6 +15,19 @@
         public CarService(CarDealerDbContext db)
         {
             this.db = db;
+        }
+
+        public void Add(string make, string model, long travelledDistance)
+        {
+            Car car = new Car
+            {
+                Make = make,
+                Model = model,
+                TravelledDistance = travelledDistance
+            };
+
+            db.Cars.Add(car);
+            db.SaveChanges();
         }
 
         public IEnumerable<CarModel> GetCarsByMake(string make)

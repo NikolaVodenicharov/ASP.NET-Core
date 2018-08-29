@@ -10,7 +10,7 @@
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(ModelConstants.StringMaxLength)]
+        [MaxLength(DbConstants.StringMaxLength)]
         public string Name { get; set; }
 
         [Required]

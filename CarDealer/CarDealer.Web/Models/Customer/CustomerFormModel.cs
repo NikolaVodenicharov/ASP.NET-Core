@@ -7,7 +7,7 @@
     public class CustomerFormModel
     {
         [Required]
-        [MaxLength(ModelConstants.StringMaxLength)]
+        [MaxLength(DbConstants.StringMaxLength)]
         public string Name { get; set; }
 
         [DataType(DataType.Date)]

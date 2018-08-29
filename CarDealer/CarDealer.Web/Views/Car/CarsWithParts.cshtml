@@ -4,7 +4,7 @@
     ViewData["Title"] = "GetCarsWithParts";
 }
 
-<h2>GetCarsWithParts</h2>
+<h2>Cars with parts</h2>
 
 <table class="table table-bordered table-hover">
     <thead>
@@ -40,9 +40,8 @@
                     <ul>
                         @foreach (var part in carWithParts.Parts)
                         {
-
                             <li>
-                                @part.Name - @part.Price$
+                                @part.Name - @part.Price.ToPrice()
                             </li>
                         }
                     </ul>

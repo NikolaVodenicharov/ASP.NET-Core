@@ -8,6 +8,10 @@
     {
         void Add(string make, string model, long travelledDistance);
 
+        PagedCarsModel PagedCars(
+            int currentPage = ServicesConstants.CarServiceConstants.DefaultCurrentPage, 
+            int pageSize = ServicesConstants.CarServiceConstants.DefaultPageSize);
+
         IEnumerable<CarModel> GetCarsByMake(string make);
 
         IEnumerable<CarWithPartsModel> GetCarsWithParts();

@@ -34,8 +34,14 @@
                 carFormModel.Model,
                 carFormModel.TravelledDistance);
 
-            return RedirectToAction(nameof(CarsByMake), "opel");
+            return RedirectToAction(nameof(CarsWithParts));
 
+        }
+
+        [Route(nameof(PagedCars) + "/{currentPage}")]
+        public IActionResult PagedCars(int currentPage = 1)
+        {
+            return View(this.carService.PagedCars(currentPage));
         }
 
         [Route(nameof(CarsByMake) + "/{make}")]

@@ -39,10 +39,61 @@
                 .ThenByDescending(c => c.TravelledDistance)
                 .Select(c => new CarModel
                 {
+                    Id = c.Id,
                     Make = c.Make,
                     Model = c.Model,
                     TravelledDistance = c.TravelledDistance
                 });
+        }
+
+        public PagedCarsModel PagedCars(
+            int currentPage = ServicesConstants.CarServiceConstants.DefaultCurrentPage, 
+            int pageSize = ServicesConstants.CarServiceConstants.DefaultPageSize)
+        {
+            if (currentPage < ServicesConstants.CarServiceConstants.DefaultMinCurrentPage)
+            {
+                currentPage = ServicesConstants.CarServiceConstants.DefaultCurrentPage;
+            }
+            if (pageSize < ServicesConstants.CarServiceConstants.DefaultMinPageSize)
+            {
+                pageSize = ServicesConstants.CarServiceConstants.DefaultPageSize;
+            }
+
+            int skipCarsNumber = pageSize * (currentPage - 1);
+
+            var model = new PagedCarsModel
+            {
+                CurrentPage = currentPage,
+                TotalPage = (int)Math.Ceiling(this.CarsCount() / (double)pageSize),
+                Cars = this
+                    .CarsQuery()
+                    .Skip(skipCarsNumber)
+                    .Take(pageSize)
+                    .ToList()
+            };
+
+            return model;
+        }
+        private int CarsCount()
+        {
+            return db
+                .Cars
+                .Count();
+        }
+        private IQueryable<CarModel> CarsQuery()
+        {
+            return db
+                .Cars
+                .Select(c => new CarModel
+                {
+                    Id = c.Id,
+                    Make = c.Make,
+                    Model = c.Model,
+                    TravelledDistance = c.TravelledDistance
+                })
+                .OrderBy(c => c.Make)
+                .ThenBy(c => c.Model)
+                .ThenBy(c => c.TravelledDistance);
         }
 
         public IEnumerable<CarWithPartsModel> GetCarsWithParts()

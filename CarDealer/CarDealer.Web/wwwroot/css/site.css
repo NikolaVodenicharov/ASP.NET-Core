@@ -21,6 +21,11 @@
     width: 100%;
 }
 
+.disabled {
+    color: gray;
+    pointer-events: none;
+}
+
 /* QR code generator */
 #qrCode {
     margin: 15px;

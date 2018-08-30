@@ -68,24 +68,43 @@
 
         public IEnumerable<PartModel> GetAllBySupplier(int supplierId)
         {
-            return db
-                .Parts
-                .Where(p => p.SupplierId == supplierId)
-                .Select(p => new PartModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    Quantity = p.Quantity
-                })
-                .ToList();
-        }
-        public IEnumerable<PartModel> GetAll()
-        {
             return this
                 .PartsQuery()
+                .Where(p => p.SupplierId == supplierId)
                 .ToList();
         }
+
+        public PagedPartsModel GetPagedParts(
+            int currentPage = ServicesConstants.DefaultCurrentPage,
+            int pageSize = ServicesConstants.DefaultPageSize)
+        {
+            if (currentPage < ServicesConstants.DefaultMinCurrentPage)
+            {
+                currentPage = ServicesConstants.DefaultCurrentPage;
+            }
+            if (pageSize < ServicesConstants.DefaultMinPageSize)
+            {
+                pageSize = ServicesConstants.DefaultPageSize;
+            }
+
+            int skipCarsNumber = pageSize * (currentPage - 1);
+
+            return new PagedPartsModel
+            {
+                CurrentPage = currentPage,
+                TotalPages = (int)Math.Ceiling(this.PartsCount() / (double)pageSize),
+                Parts = this
+                    .PartsQuery()
+                    .Skip(skipCarsNumber)
+                    .Take(pageSize)
+                    .ToList()
+            };
+        }
+        private int PartsCount()
+        {
+            return this.db.Parts.Count();
+        }
+
         public PartModel GetById(int id)
         {
             return this
@@ -102,8 +121,10 @@
                     Id = p.Id,
                     Name = p.Name,
                     Price = p.Price,
-                    Quantity = p.Quantity
-                });
+                    Quantity = p.Quantity,
+                    SupplierId = p.SupplierId
+                })
+                .OrderByDescending(p => p.Id);
         }
     }
 }

@@ -9,11 +9,13 @@
         void Add(string make, string model, long travelledDistance);
 
         PagedCarsModel PagedCars(
-            int currentPage = ServicesConstants.CarServiceConstants.DefaultCurrentPage, 
-            int pageSize = ServicesConstants.CarServiceConstants.DefaultPageSize);
+            int currentPage = ServicesConstants.DefaultCurrentPage, 
+            int pageSize = ServicesConstants.DefaultPageSize);
 
         IEnumerable<CarModel> GetCarsByMake(string make);
 
-        IEnumerable<CarWithPartsModel> GetCarsWithParts();
+        CarWithPartsModel CarDetails(int id);
+
+        IEnumerable<CarWithPartsModel> CarsDetails();
     }
 }

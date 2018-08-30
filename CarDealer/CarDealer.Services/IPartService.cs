@@ -10,7 +10,11 @@
         void Delete(int id);
 
         IEnumerable<PartModel> GetAllBySupplier(int supplierId);
-        IEnumerable<PartModel> GetAll();
+
+        PagedPartsModel GetPagedParts(
+            int currentPage = ServicesConstants.DefaultCurrentPage,
+            int pageSize = ServicesConstants.DefaultPageSize);
+
         PartModel GetById(int id);
     }
 }

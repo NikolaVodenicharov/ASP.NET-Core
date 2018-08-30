@@ -47,16 +47,16 @@
         }
 
         public PagedCarsModel PagedCars(
-            int currentPage = ServicesConstants.CarServiceConstants.DefaultCurrentPage, 
-            int pageSize = ServicesConstants.CarServiceConstants.DefaultPageSize)
+            int currentPage = ServicesConstants.DefaultCurrentPage, 
+            int pageSize = ServicesConstants.DefaultPageSize)
         {
-            if (currentPage < ServicesConstants.CarServiceConstants.DefaultMinCurrentPage)
+            if (currentPage < ServicesConstants.DefaultMinCurrentPage)
             {
-                currentPage = ServicesConstants.CarServiceConstants.DefaultCurrentPage;
+                currentPage = ServicesConstants.DefaultCurrentPage;
             }
-            if (pageSize < ServicesConstants.CarServiceConstants.DefaultMinPageSize)
+            if (pageSize < ServicesConstants.DefaultMinPageSize)
             {
-                pageSize = ServicesConstants.CarServiceConstants.DefaultPageSize;
+                pageSize = ServicesConstants.DefaultPageSize;
             }
 
             int skipCarsNumber = pageSize * (currentPage - 1);
@@ -96,12 +96,26 @@
                 .ThenBy(c => c.TravelledDistance);
         }
 
-        public IEnumerable<CarWithPartsModel> GetCarsWithParts()
+        public CarWithPartsModel CarDetails(int id)
+        {
+            return this
+                .CarsDetailsQuery()
+                .Where(c => c.Id == id)
+                .FirstOrDefault();
+        }
+        public IEnumerable<CarWithPartsModel> CarsDetails()
+        {
+            return this
+                .CarsDetailsQuery()
+                .ToList();
+        }
+        private IQueryable<CarWithPartsModel> CarsDetailsQuery()
         {
             return db
                 .Cars
                 .Select(c => new CarWithPartsModel
                 {
+                    Id = c.Id,
                     Make = c.Make,
                     Model = c.Model,
                     TravelledDistance = c.TravelledDistance,
@@ -111,8 +125,7 @@
                         Price = p.Part.Price
                     })
                     .ToList()
-                })
-                .ToList();
+                });
         }
     }
 }

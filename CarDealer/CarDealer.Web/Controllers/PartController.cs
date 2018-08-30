@@ -5,8 +5,6 @@
     using CarDealer.Services.Models.Suppliers;
     using CarDealer.Web.Models.Parts;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections;
 
     [Route("Part")]
     public class PartController : Controller
@@ -92,10 +90,10 @@
             return View(supplierPartsModel);
         }
 
-        [Route(nameof(GetAll))]
-        public IActionResult GetAll()
+        [Route(nameof(GetPagedParts) + "/{currentPage}")]
+        public IActionResult GetPagedParts(int currentPage)
         {
-            return View(this.partService.GetAll());
+            return View(this.partService.GetPagedParts(currentPage));
         }
     }
 }

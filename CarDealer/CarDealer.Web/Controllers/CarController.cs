@@ -52,10 +52,16 @@
             return View(cars);
         }
 
+        [Route(nameof(CarDetails) +"/{id}")]
+        public IActionResult CarDetails(int id)
+        {
+            return View(this.carService.CarDetails(id));
+        }
+
         [Route(nameof(CarsWithParts))]
         public IActionResult CarsWithParts()
         {
-            return View(this.carService.GetCarsWithParts());
+            return View(this.carService.CarsDetails());
         }
     }
 }

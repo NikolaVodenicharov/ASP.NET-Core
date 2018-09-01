@@ -27,7 +27,7 @@
             var supplierViewModel = new SuppliersViewModel
             {
                 SupplierType = supplierTypeEnum,
-                Suppliers = this.supplierService.GetSuppliers(supplierTypeEnum)
+                Suppliers = this.supplierService.GetSuppliersByType(supplierTypeEnum)
             };
 
             return View(supplierViewModel);

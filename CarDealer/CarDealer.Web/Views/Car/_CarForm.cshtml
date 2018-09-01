@@ -1,6 +1,5 @@
 ﻿@model CarFormModel
 
-
 @{
     ViewData["Title"] = "_CarForm";
 }
@@ -24,7 +23,13 @@
         <span asp-validation-for="TravelledDistance" class="form-text text-danger"></span>
     </div>
 
+    <div class="form-group">
+        <label asp-for="SelectedPartsIds"></label>
+        <select asp-for="SelectedPartsIds" asp-items="Model.OptionalParts" multiple class="form-control parts-select"></select>
+        <small>* Hold ctrl to select multiple parts.</small>
+    </div>
+
     <div>
-        <input class="btn btn-success" type="submit" value="Save customer" />
+        <input class="btn btn-success" type="submit" value="Save car" />
     </div>
 </form>

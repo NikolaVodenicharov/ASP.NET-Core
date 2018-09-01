@@ -7,6 +7,7 @@
     using CarDealer.Services.Enums;
     using CarDealer.Services.Models;
     using CarDealer.Services.Models.Suppliers;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class SupplierService : ISupplierService
     {
@@ -19,19 +20,31 @@
 
         public SupplierModel GetById(int id)
         {
-            return db
-                .Suppliers
+            return this
+                .QueryAll()
                 .Where(s => s.Id == id)
-                .Select(s => new SupplierModel
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    SupplierType = (s.IsImporter ? SupplierType.Importer : SupplierType.Local)
-                })
                 .FirstOrDefault();
         }
 
-        public IEnumerable<SupplierPartsCountModel> GetSuppliers(SupplierType supplierType)
+        public IEnumerable<SupplierModel> GetAllSuppliers()
+        {
+            return this
+                .QueryAll()
+                .ToList();
+        }
+
+        public IEnumerable<SelectListItem> GetSelectedList()
+        {
+            return this
+                .QueryAll()
+                .Select(s => new SelectListItem
+                {
+                    Text = s.Name,
+                    Value = s.Id.ToString()
+                });
+        }
+
+        public IEnumerable<SupplierPartsCountModel> GetSuppliersByType(SupplierType supplierType)
         {
             var isImporter = supplierType == SupplierType.Importer;
 
@@ -45,6 +58,19 @@
                     PartsCount = s.Parts.Count()
                 })
                 .ToList();
+        }
+
+        private IQueryable<SupplierModel> QueryAll()
+        {
+            return db
+                .Suppliers
+                .Select(s => new SupplierModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    SupplierType = s.IsImporter ? SupplierType.Importer : SupplierType.Local
+                })
+                .OrderBy(sm => sm.Id);
         }
     }
 }

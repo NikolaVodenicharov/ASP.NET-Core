@@ -17,7 +17,7 @@
             this.db = db;
         }
 
-        public void Add(string make, string model, long travelledDistance)
+        public void Add(string make, string model, long travelledDistance, IEnumerable<int> partIds)
         {
             Car car = new Car
             {
@@ -25,6 +25,22 @@
                 Model = model,
                 TravelledDistance = travelledDistance
             };
+
+            var existingPartIds = db
+                .Parts
+                .Where(p => partIds.Contains(p.Id))
+                .Select(p => p.Id)
+                .ToList();
+
+            if (existingPartIds.Count != partIds.Count())
+            {
+                // exception ?
+            }
+
+            foreach (var partId in existingPartIds)
+            {
+                car.PartCars.Add(new PartCar { PartId = partId });
+            }
 
             db.Cars.Add(car);
             db.SaveChanges();

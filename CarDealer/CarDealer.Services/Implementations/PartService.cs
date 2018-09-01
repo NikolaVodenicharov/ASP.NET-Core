@@ -16,8 +16,13 @@
             this.db = db;
         }
 
-        public void Add(string name, decimal price, int supplierId, int quantity = 1)
+        public void Add(string name, decimal price, int supplierId, int quantity )
         {
+            if (quantity < 1)
+            {
+                return;
+            }
+
             Part part = new Part
             {
                 Name = name,
@@ -69,7 +74,7 @@
         public IEnumerable<PartModel> GetAllBySupplier(int supplierId)
         {
             return this
-                .PartsQuery()
+                .QueryParts()
                 .Where(p => p.SupplierId == supplierId)
                 .ToList();
         }
@@ -94,7 +99,7 @@
                 CurrentPage = currentPage,
                 TotalPages = (int)Math.Ceiling(this.PartsCount() / (double)pageSize),
                 Parts = this
-                    .PartsQuery()
+                    .QueryParts()
                     .Skip(skipCarsNumber)
                     .Take(pageSize)
                     .ToList()
@@ -105,14 +110,27 @@
             return this.db.Parts.Count();
         }
 
+        public IEnumerable<PartIdNameModel> GetAllIdNames ()
+        {
+            return db
+                .Parts
+                .Select(p => new PartIdNameModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                })
+                .OrderByDescending(p => p.Id)
+                .ToList();
+        }
+
         public PartModel GetById(int id)
         {
             return this
-                .PartsQuery()
+                .QueryParts()
                 .Where(p => p.Id == id)
                 .FirstOrDefault();
         }
-        private IQueryable<PartModel> PartsQuery()
+        private IQueryable<PartModel> QueryParts()
         {
             return db
                 .Parts

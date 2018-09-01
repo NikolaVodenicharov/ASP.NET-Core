@@ -5,6 +5,10 @@
     using CarDealer.Services.Models.Suppliers;
     using CarDealer.Web.Models.Parts;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [Route("Part")]
     public class PartController : Controller
@@ -18,28 +22,34 @@
             this.supplierService = supplierService;
         }
 
-        [Route(nameof(Add) + "/{supplierId}")]
-        public IActionResult Add()
+        [Route(nameof(AddPart))]
+        public IActionResult AddPart()
         {
-            return View();
+            var model = new AddPartFormModel
+            {
+                Suppliers = supplierService.GetSelectedList()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        [Route(nameof(Add) + "/{supplierId}")]
-        public IActionResult Add(int supplierId, PartFormModel model)
+        [Route(nameof(AddPart))]
+        public IActionResult AddPart(AddPartFormModel model)
         {
             if (!ModelState.IsValid)
             {
+                model.Suppliers = supplierService.GetSelectedList();
                 return View(model);
             }
 
             this.partService.Add(
                 model.Name,
                 model.Price,
-                supplierId,
+                model.SupplierId,
                 model.Quantity);
 
-            return RedirectToAction(nameof(GetAllBySupplier), supplierId);
+            return RedirectToAction(nameof(GetPagedParts), new { currentPage = 1 });
         }
 
         [Route(nameof(Edit) + "/{supplierId}/{id}")]
@@ -70,6 +80,14 @@
             return RedirectToAction(nameof(GetAllBySupplier), supplierId);
         }
 
+        [Route(nameof(DeleteConfirmation) + "/{id}")]
+        public IActionResult DeleteConfirmation(int id)
+        {
+            PartModel partModel = this.partService.GetById(id);
+
+            return View(partModel);
+        }
+
         [Route(nameof(Delete) + "/{supplierId}/{id}")]
         public IActionResult Delete(int id, int supplierId)
         {
@@ -91,7 +109,7 @@
         }
 
         [Route(nameof(GetPagedParts) + "/{currentPage}")]
-        public IActionResult GetPagedParts(int currentPage)
+        public IActionResult GetPagedParts(int currentPage = 1)
         {
             return View(this.partService.GetPagedParts(currentPage));
         }

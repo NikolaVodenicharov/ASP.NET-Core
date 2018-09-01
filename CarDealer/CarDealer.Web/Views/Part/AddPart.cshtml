@@ -1,0 +1,44 @@
+﻿@model AddPartFormModel
+
+@{
+    ViewData["Title"] = "AddPart";
+}
+
+<h2>Add Part</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" type="text" class="form-control" placeholder="Part name"/>
+                <span asp-validation-for="Name" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Price">Price</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Quantity">Quantity</label>
+                <input asp-for="Quantity" type="number" value="1" min="1" class="form-control" />
+                <span asp-validation-for="Quantity" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => Model.SupplierId)
+                <br />
+                <div>
+                    @Html.DropDownListFor(x => Model.SupplierId, new SelectList(Model.Suppliers, "Value", "Text"), htmlAttributes: new { @class = "form-control", @id = "SupplierId" })
+                    @Html.ValidationMessageFor(x => x.SupplierId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div>
+                <input class="btn btn-success" type="submit" value="Save part" />
+            </div>
+        </form>
+    </div>
+</div>

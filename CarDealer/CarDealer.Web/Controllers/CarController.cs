@@ -3,21 +3,31 @@
     using CarDealer.Services;
     using CarDealer.Web.Models.Cars;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [Route("car")]
     public class CarController : Controller
     {
         private readonly ICarService carService;
+        private readonly IPartService partService;
 
-        public CarController(ICarService carService)
+        public CarController(ICarService carService, IPartService partService)
         {
             this.carService = carService;
+            this.partService = partService;
         }
 
         [Route(nameof(Add))]
         public IActionResult Add()
         {
-            return View();
+            var model = new CarFormModel
+            {
+                OptionalParts = this.PartsIdNames()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -26,16 +36,29 @@
         {
             if (!ModelState.IsValid)
             {
+                carFormModel.OptionalParts = this.PartsIdNames();
                 return View(carFormModel);
             }
 
             this.carService.Add(
                 carFormModel.Make,
                 carFormModel.Model,
-                carFormModel.TravelledDistance);
+                carFormModel.TravelledDistance,
+                carFormModel.SelectedPartsIds);
 
             return RedirectToAction(nameof(CarsWithParts));
 
+        }
+        private IEnumerable<SelectListItem> PartsIdNames()
+        {
+            return this
+                    .partService
+                    .GetAllIdNames()
+                    .Select(p => new SelectListItem
+                    {
+                        Text = p.Name,
+                        Value = p.Id.ToString()
+                    });
         }
 
         [Route(nameof(PagedCars) + "/{currentPage}")]

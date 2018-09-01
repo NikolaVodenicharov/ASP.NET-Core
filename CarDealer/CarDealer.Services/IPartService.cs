@@ -15,6 +15,8 @@
             int currentPage = ServicesConstants.DefaultCurrentPage,
             int pageSize = ServicesConstants.DefaultPageSize);
 
+        IEnumerable<PartIdNameModel> GetAllIdNames();
+
         PartModel GetById(int id);
     }
 }

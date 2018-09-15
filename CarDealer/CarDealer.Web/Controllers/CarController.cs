@@ -2,6 +2,7 @@
 {
     using CarDealer.Services;
     using CarDealer.Web.Models.Cars;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using System.Collections.Generic;
@@ -19,6 +20,7 @@
             this.partService = partService;
         }
 
+        [Authorize]
         [Route(nameof(Add))]
         public IActionResult Add()
         {
@@ -30,6 +32,7 @@
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         [Route(nameof(Add))]
         public IActionResult Add(CarFormModel carFormModel)

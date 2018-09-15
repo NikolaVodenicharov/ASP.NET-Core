@@ -9,8 +9,9 @@ namespace CarDealer.Web.Models.AccountViewModels
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        [MinLength(4)]
+        [MaxLength(50)]
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

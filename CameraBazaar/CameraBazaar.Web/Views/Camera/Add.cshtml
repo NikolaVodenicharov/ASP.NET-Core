@@ -1,0 +1,123 @@
+﻿@model CameraFormModel
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h2>Add</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Make"></label>
+                <select asp-for="Make" asp-items="Html.GetEnumSelectList<MakeEnum>()"></select>
+                <span asp-validation-for="Make" class="text-danger" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Model">Model</label>
+                <input asp-for="Model" type="text" class="form-control" />
+                <span asp-validation-for="Model" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Price">Model</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Quantity">Quantity</label>
+                <input asp-for="Quantity" type="number" class="form-control" />
+                <span asp-validation-for="Quantity" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MinShutterSpeed">MinShutterSpeed</label>
+                <input asp-for="MinShutterSpeed" type="number" class="form-control" />
+                <span asp-validation-for="MinShutterSpeed" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MaxShutterSpeed">MaxShutterSpeed</label>
+                <input asp-for="MaxShutterSpeed" type="number" class="form-control" />
+                <span asp-validation-for="MaxShutterSpeed" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MinISO">MinISO</label>
+                <input asp-for="MinISO" type="number" class="form-control" />
+                <span asp-validation-for="MinISO" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MaxISO">MaxISO</label>
+                <input asp-for="MaxISO" type="number" class="form-control" />
+                <span asp-validation-for="MaxISO" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>IsFullFrame</label>
+                <br />
+                @foreach (FullFrame frame in Enum.GetValues(typeof(FullFrame)))
+                {
+                    <input asp-for="IsFullFrame" type="radio" value="@frame" />
+                    <label asp-for="IsFullFrame" asp-for-value="@frame">@frame</label>
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="VideoResolution">VideoResolution</label>
+                <input asp-for="VideoResolution" type="number" class="form-control" />
+                <span asp-validation-for="VideoResolution" class="form-text text-danger"></span>
+            </div>
+
+            @*<div class="form-group">
+            <label>LightMeterings</label>
+            <br />
+            @foreach (LightMetering lightMetering in Enum.GetValues(typeof(LightMetering)))
+            {
+                <input asp-for-collection="LightMeterings" type="checkbox" value="@lightMetering" />
+                <label asp-for="LightMeterings" asp-for-value="@lightMetering">@lightMetering</label>
+            }
+            </div>*@
+
+            @*<div class="form-group">
+                <label>LightMeterings</label>
+                <br />
+                @foreach (CkeckboxLightMeteringModel lightMeteringModel in Model.CheckboxLightMeteringModels)
+                {
+                    <input asp-for-collection="CheckboxLightMeteringModels" type="checkbox" value="@lightMeteringModel.IsCheck" />
+                    <label asp-for="CheckboxLightMeteringModels">@lightMeteringModel.LightMetering</label>
+                }
+            </div>*@
+
+            <div class="form-group">
+                <label>LightMeterings</label>
+                <br />
+                @for (int i = 0; i < Model.CheckboxLightMeteringModels.Count(); i++)
+                {
+                    <input asp-for="CheckboxLightMeteringModels[i].IsCheck" type="checkbox"/>
+                    <label asp-for="CheckboxLightMeteringModels[i].LightMetering">@Model.CheckboxLightMeteringModels[i].LightMetering</label>
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description">Description</label>
+                <input asp-for="Description" type="text" class="form-control" />
+                <span asp-validation-for="Description" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ImageURL">ImageURL</label>
+                <input asp-for="ImageURL" type="text" class="form-control" />
+                <span asp-validation-for="ImageURL" class="form-text text-danger"></span>
+            </div>
+
+            <div>
+                <input class="btn btn-success" type="submit" value="Add" />
+            </div>
+        </form>
+    </div>
+</div>

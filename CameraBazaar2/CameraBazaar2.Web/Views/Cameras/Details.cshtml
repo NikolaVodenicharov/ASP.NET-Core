@@ -1,0 +1,63 @@
+﻿@model CameraWithUserReferenceServiceModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+@Model.Make @Model.Model - @Model.Price.ToMoney() - @if (Model.Quantity > 0)
+    {
+        <span class="text-success">In stock</span>
+    }
+    else
+    {
+        <span class="text-danger">Out of stock</span>
+    }
+<br />
+
+<a href="/Cameras/UserCamerasSummary/@Model.UserId">@Model.Username</a>
+<br />
+<br />
+
+<table>
+    <tbody>
+        <tr>
+            <td class="text-right">Is Full Frame:</td>
+            <td>@(Model.IsFullFrame ? "Yes" : "No")</td>
+        </tr>
+        <tr>
+            <td class="text-right">Min Shuttering Speed:</td>
+            <td>@Model.MaxShutterSpeed"</td>
+        </tr>
+        <tr>
+            <td class="text-right">Max Shuttering Speed:</td>
+            <td>1/@Model.MaxShutterSpeed</td>
+        </tr>
+        <tr>
+            <td class="text-right">Min Iso:</td>
+            <td>@Model.MinIso</td>
+        </tr>
+        <tr>
+            <td class="text-right">Max Iso:</td>
+            <td>@Model.MaxIso</td>
+        </tr>
+        <tr>
+            <td class="text-right">Video Resolution:</td>
+            <td>@Model.VideoResolution</td>
+        </tr>
+        <tr>
+            <td class="text-right">Light Metering:</td>
+            @foreach (LightMetering value in Enum.GetValues(Model.LightMetering.GetType()))
+            {
+                if (Model.LightMetering.HasFlag(value))
+                {             
+                    <td> &#10003;@value</td>
+                }
+            }
+        </tr>
+        <tr>
+            <td class="text-right">Description:</td>
+            <td>@Model.Description</td>
+        </tr>
+    </tbody>
+</table>

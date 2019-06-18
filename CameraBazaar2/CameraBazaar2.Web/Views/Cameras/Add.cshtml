@@ -1,0 +1,87 @@
+﻿@model AddCameraViewModel
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h1>Add</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Make"></label>
+                <select asp-for="Make" asp-items="Model.Makes" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CameraModel"></label>
+                <input asp-for="CameraModel" class="form-control" />
+                <span asp-validation-for="CameraModel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinShutterSpeed"></label>
+                <input asp-for="MinShutterSpeed" class="form-control" />
+                <span asp-validation-for="MinShutterSpeed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxShutterSpeed"></label>
+                <input asp-for="MaxShutterSpeed" class="form-control" />
+                <span asp-validation-for="MaxShutterSpeed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinIso"></label>
+                <input asp-for="MinIso" class="form-control" />
+                <span asp-validation-for="MinIso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxIso"></label>
+                <input asp-for="MaxIso" class="form-control" />
+                <span asp-validation-for="MaxIso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsFullFrame"></label>
+                <input data-val="true" data-val-required="The Full Frame field is required." id="IsFullFrame" name="IsFullFrame" type="radio" value="True">Yes
+                <input checked="checked" id="IsFullFrame" name="IsFullFrame" type="radio" value="True">No
+            </div>
+            <div class="form-group">
+                <label asp-for="VideoResolution"></label>
+                <input asp-for="VideoResolution" class="form-control" />
+                <span asp-validation-for="VideoResolution" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LightMeterings"></label>
+                <br />
+                @foreach (LightMetering lightMetering in Enum.GetValues(typeof(LightMetering)))
+                {
+                    <input type="checkbox" name="LightMeterings" value="@((int)lightMetering)" /> @lightMetering.ToString()
+                }
+                <span asp-validation-for="LightMeterings" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl"></label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

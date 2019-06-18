@@ -1,0 +1,29 @@
+﻿@model IEnumerable<CameraSummaryServiceModel>
+@{
+    ViewData["Title"] = "All cameras";
+}
+
+<h1>@ViewData["Title"]</h1>
+<br />
+
+@foreach (var cameraSummary in Model)
+{
+    <div class="card border-primary" style="max-width: 20rem;">
+        <div class="card-header bg-transparent border-primary text-center">@cameraSummary.Make @cameraSummary.Model</div>
+        <div class="card-body text-right">
+            <p class="card-text">$@(cameraSummary.Price.ToMoney())</p>
+            <p>
+                @if (cameraSummary.IsInStock)
+                {
+                    <span class="text-success">In stock</span>
+                }
+                else
+                {
+                    <span class="text-danger">Out of stock</span>
+                }
+        </div>
+        <div class="card-footer bg-transparent border-primary">
+            <a class="btn btn-primary" href="/Cameras/Details/@cameraSummary.Id">Details</a>
+        </div>
+    </div>
+}

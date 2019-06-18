@@ -1,0 +1,65 @@
+﻿@model UserWithCamerasSummary
+@{
+    ViewData["Title"] = "User with cameras";
+}
+
+<h3>@Model.Username</h3>
+
+<table>
+    <tbody>
+        <tr>
+            <td class="text-right">Email:</td>
+            <td sstyle="margin: 10px; padding: 5px;">@Model.Email</td>
+        </tr>
+        <tr>
+            <td class="text-right">Phone:</td>
+            <td style="margin: 10px; padding: 5px;">@Model.Phone</td>
+        </tr>
+        <tr>
+            <td class="text-right">Cameras:</td>
+            <td style="margin: 10px; padding: 5px;">@Model.CamerasInStock in stock / @Model.CamerasOutOfStock out of stock</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+
+<h3 class="text">Cameras:</h3>
+@if (!Model.CamerasSummary.Any())
+{
+    <td>"The user is not selling cameras. Go to <a asp-controller="Home" asp-action="Index">home page</a> to find more offers from other users";</td>
+}
+else
+{
+    foreach (var cameraSummary in Model.CamerasSummary)
+    {
+        <div class="card border-primary" style="max-width: 20rem;">
+            <div class="card-header bg-transparent border-primary text-center">@cameraSummary.Make @cameraSummary.Model</div>
+            <div class="card-body text-right">
+                <p class="card-text">$@(cameraSummary.Price.ToMoney())</p>
+                <p>
+                    @if (cameraSummary.IsInStock)
+                    {
+                        <span class="text-success">In stock</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Out of stock</span>
+                    }
+            </div>
+            <div class="card-footer bg-transparent border-primary">
+                <a class="btn btn-primary" href="/Cameras/Details/@cameraSummary.Id">Details</a>
+                @if (Model.IsAuthorizeToAlterCameras)
+                {
+                    <div class="text-right">
+                        <a class="btn btn-warning" href="/Cameras/Edit/@cameraSummary.Id">Edit</a>
+                        <a class="btn btn-danger" href="">Delete</a>
+                    </div>
+                }
+            </div>
+        </div>
+
+    }
+}
+
+
+

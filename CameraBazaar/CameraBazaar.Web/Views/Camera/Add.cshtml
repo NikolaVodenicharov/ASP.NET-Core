@@ -11,7 +11,7 @@
         <form method="post">
             <div class="form-group">
                 <label asp-for="Make"></label>
-                <select asp-for="Make" asp-items="Html.GetEnumSelectList<MakeEnum>()"></select>
+                <select asp-for="Make" asp-items="Html.GetEnumSelectList<MakeEnum>()" class="form-control"></select>
                 <span asp-validation-for="Make" class="text-danger" />
             </div>
 

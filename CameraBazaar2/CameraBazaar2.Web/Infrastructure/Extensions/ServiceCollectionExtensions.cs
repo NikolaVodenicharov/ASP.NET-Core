@@ -10,6 +10,10 @@ namespace CameraBazaar2.Web.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// We create interface called <seealso cref="IService"/> in the Service assembly. So we can find and register 
+        /// the services in the <seealso cref="IServiceCollection"/>.
+        /// </summary>
         public static IServiceCollection AddDomainServices(this IServiceCollection services)
         {
             Assembly

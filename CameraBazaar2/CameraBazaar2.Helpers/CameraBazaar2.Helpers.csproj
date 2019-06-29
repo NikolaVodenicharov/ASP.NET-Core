@@ -5,9 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CameraBazaar2.Common\CameraBazaar2.Helpers.csproj" />
+    <Folder Include="Mappings\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CameraBazaar2.Data\CameraBazaar2.Data.csproj" />
-    <ProjectReference Include="..\CameraBazaar2.Helpers\CameraBazaar2.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

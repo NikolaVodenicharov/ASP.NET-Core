@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CameraBazaar2.Data;
@@ -17,6 +12,8 @@ using CameraBazaar2.Data.Models;
 using CameraBazaar2.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using CameraBazaar2.Web.Infrastructure.Attributes;
+using AutoMapper;
+using CameraBazaar2.Helpers.Mapping;
 
 namespace CameraBazaar2.Web
 {
@@ -61,6 +58,9 @@ namespace CameraBazaar2.Web
                     options.Filters.Add(typeof(LogAttribute));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services
+                .AddAutoMapper(typeof(AutoMapperProfile));
 
             services
                 .AddDomainServices();

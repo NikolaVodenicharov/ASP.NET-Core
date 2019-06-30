@@ -1,4 +1,6 @@
-﻿using LearningSystem.Data;
+﻿using AutoMapper;
+using LearningSysem.Helpers.Mappings;
+using LearningSystem.Data;
 using LearningSystem.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -50,6 +52,9 @@ namespace LearningSystem.Web
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services
+                .AddAutoMapper(typeof(AutoMapperProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

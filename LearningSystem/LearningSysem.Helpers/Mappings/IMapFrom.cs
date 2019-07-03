@@ -1,4 +1,4 @@
-﻿namespace LearningSysem.Helpers.Mappings
+﻿namespace LearningSystem.Helpers.Mappings
 {
     /// <summary>
     /// We implement this interface in the destination types for our auto mapping. After that

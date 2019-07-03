@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace LearningSysem.Helpers.Mappings
+namespace LearningSystem.Helpers.Mappings
 {
     /// <summary>
     /// In the startup file we need to add services.AddAutoMapper(typeof(AutoMapperProfile));
@@ -15,7 +15,7 @@ namespace LearningSysem.Helpers.Mappings
         /// <summary>
         /// We need to know from wich assemblies to take the types.
         /// </summary>
-        private const string AssembliesCommonName = "CameraBazaar2";
+        private const string AssembliesCommonName = "LearningSystem";
 
         /// <summary>
         /// First we get all types that we wrote in the asemblies. Not all in our solution file, because there are 
@@ -37,7 +37,8 @@ namespace LearningSysem.Helpers.Mappings
                 .CurrentDomain
                 .GetAssemblies()
                 .Where(a => a.GetName().Name.Contains(AssembliesCommonName))
-                .SelectMany(a => a.GetTypes());
+                .SelectMany(a => a.GetTypes())
+                .ToList();
 
             allTypes
                 .Where(t =>

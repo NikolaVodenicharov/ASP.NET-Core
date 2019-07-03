@@ -18,12 +18,14 @@ namespace LearningSystem.Data.EntityConfigurations
             builder
                 .HasOne(cu => cu.User)
                 .WithMany(u => u.CourseUsers)
-                .HasForeignKey(cu => cu.UserId);
+                .HasForeignKey(cu => cu.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder
                 .HasOne(cu => cu.Course)
                 .WithMany(c => c.CourseUsers)
-                .HasForeignKey(cu => cu.CourseId);
+                .HasForeignKey(cu => cu.CourseId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

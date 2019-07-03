@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LearningSysem.Helpers.Mappings
+namespace LearningSystem.Helpers.Mappings
 {
     /// <summary>
     /// We use this class to make custom mapping between properties of source and destination type, when the names

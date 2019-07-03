@@ -1,31 +1,31 @@
-﻿using LearningSystem.Data.Constants;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace LearningSystem.Data.Models
+namespace LearningSystem.Web.Areas.Administrator.Models.Courses
 {
-    public class Course
+    public class CreateCourseViewModel 
     {
-        public int Id { get; set; }
-
         [Required]
-        [MaxLength(CourseConstants.NameMaxLength)]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(CourseConstants.DescriptionMaxlenght)]
         public string Description { get; set; }
 
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
 
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
         [Required]
-        public User Trainer { get; set; }
         public string TrainerId { get; set; }
 
-        public List<CourseUser> CourseUsers { get; set; } = new List<CourseUser>();
-
+        public List<SelectListItem> Trainers { get; set; }
     }
 }

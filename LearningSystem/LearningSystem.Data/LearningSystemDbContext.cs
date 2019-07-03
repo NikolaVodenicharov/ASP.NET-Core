@@ -12,9 +12,9 @@ namespace LearningSystem.Data
         {
         }
 
-        DbSet<Article> Articles { get; set; }
-        DbSet<Course> Courses { get; set; }
-        DbSet<CourseUser> CourseUsers { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<CourseUser> CourseUsers { get; set; }
  
         protected override void OnModelCreating(ModelBuilder model)
         {

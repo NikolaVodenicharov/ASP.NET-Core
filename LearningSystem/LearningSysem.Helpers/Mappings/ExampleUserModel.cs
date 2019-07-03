@@ -1,4 +1,4 @@
-﻿namespace LearningSysem.Helpers.Mappings
+﻿namespace LearningSystem.Helpers.Mappings
 {
     //public class ExampleUserModel : IMapFrom<User>, IHaveCustomMapping
     //{

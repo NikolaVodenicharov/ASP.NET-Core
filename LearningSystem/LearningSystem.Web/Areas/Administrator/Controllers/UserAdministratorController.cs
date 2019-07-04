@@ -1,6 +1,8 @@
 ﻿using LearningSystem.Data.Models;
 using LearningSystem.Services.Interfaces;
 using LearningSystem.Web.Areas.Administrator.Models.Users;
+using LearningSystem.Web.Infrastructure.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,12 +12,13 @@ using System.Threading.Tasks;
 namespace LearningSystem.Web.Areas.Administrator.Controllers
 {
     [Area("Administrator")]
+    [Authorize(Roles = RoleConstants.Administrator)]
     [Route("UserAdministrator")]
     public class UserAdministratorController : Controller
     {
-        private UserManager<User> userManager;
-        private RoleManager<IdentityRole> roleManager;
-        private IUserService userService;
+        private readonly UserManager<User> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IUserService userService;
 
         public UserAdministratorController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IUserService userService)
         {
@@ -27,7 +30,7 @@ namespace LearningSystem.Web.Areas.Administrator.Controllers
         [Route(nameof(AllUsersListing))]
         public IActionResult AllUsersListing()
         {
-            var model = this.userService.AllUsersListing();
+            var model = this.userService.AllByPages();
 
             return View(model);
         }

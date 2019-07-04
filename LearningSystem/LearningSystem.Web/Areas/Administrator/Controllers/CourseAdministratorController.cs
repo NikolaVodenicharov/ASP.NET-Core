@@ -2,22 +2,24 @@
 using LearningSystem.Services.Interfaces;
 using LearningSystem.Web.Areas.Administrator.Models.Courses;
 using LearningSystem.Web.Infrastructure;
+using LearningSystem.Web.Infrastructure.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace LearningSystem.Web.Areas.Administrator.Controllers
 {
     [Area("Administrator")]
+    [Authorize(Roles = RoleConstants.Administrator)]
     [Route("CourseAdministrator")]
     public class CourseAdministratorController : Controller
     {
-        private UserManager<User> userManager;
-        private IUserService userService;
-        private ICourseService courseService;
+        private readonly UserManager<User> userManager;
+        private readonly IUserService userService;
+        private readonly ICourseService courseService;
 
         public CourseAdministratorController(UserManager<User> userManager, IUserService userService, ICourseService courseService)
         {
@@ -27,20 +29,18 @@ namespace LearningSystem.Web.Areas.Administrator.Controllers
         }
 
         [Route(nameof(CreateCourse))]
-        public async Task<IActionResult> CreateCourse()
+        public IActionResult CreateCourse()
         {
             var model = new CreateCourseViewModel
             {
                 Trainers = this.CreateTrainersSelectListItem()
             };
 
-            return Redirect("/home/index");
-
             return View(model);
         }
         private List<SelectListItem> CreateTrainersSelectListItem()
         {
-            var trainersIds = this.userService.FindUsersByRole(Constants.Roles.Trainer);
+            var trainersIds = this.userService.FindIdsByRole(RoleConstants.Trainer);
             if (trainersIds.Count == 0)
             {
                 // do something ?
@@ -77,7 +77,7 @@ namespace LearningSystem.Web.Areas.Administrator.Controllers
                 TrainerId = model.TrainerId
             };
 
-            this.courseService.CreateCourse(course);
+            this.courseService.Create(course);
 
             return Redirect("/home/index");
         }

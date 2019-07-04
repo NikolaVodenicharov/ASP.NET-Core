@@ -1,6 +1,6 @@
 ﻿using LearningSystem.Data.Constants;
 using LearningSystem.Data.Models;
-using LearningSystem.Web.Infrastructure;
+using LearningSystem.Web.Infrastructure.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -92,7 +92,7 @@ namespace LearningSystem.Web.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, Constants.Roles.Student);
+                    await _userManager.AddToRoleAsync(user, RoleConstants.Student);
 
                     _logger.LogInformation("User created a new account with password.");
 

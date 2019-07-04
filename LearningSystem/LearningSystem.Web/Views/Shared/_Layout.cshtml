@@ -36,7 +36,20 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
 
-                        @if (User.IsInRole(Constants.Roles.Administrator))
+                        @if (User.IsInRole(RoleConstants.Administrator) || User.IsInRole(RoleConstants.BlogAuthor))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Author
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="Blog" asp-controller="Author" asp-action="CreateArticle">Create article</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                </div>
+                            </li>
+                        }
+
+                        @if (User.IsInRole(RoleConstants.Administrator))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -44,13 +57,11 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" asp-area="Administrator" asp-controller="UserAdministrator" asp-action="AllUsersListing">All users</a>
-
                                     <a class="dropdown-item" asp-area="Administrator" asp-controller="CourseAdministrator" asp-action="CreateCourse">Create course</a>
                                     <a class="dropdown-item" href="#">Another action</a>
                                 </div>
                             </li>
                         }
-
                     </ul>
                 </div>
             </div>

@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
     using System.Threading.Tasks;
-    using static Constants.Roles;
+    using static LearningSystem.Web.Infrastructure.Constants.RoleConstants;
 
     public static class ApplicationBuilderExtensions
     {

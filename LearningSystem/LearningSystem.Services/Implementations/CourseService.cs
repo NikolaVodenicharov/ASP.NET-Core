@@ -1,25 +1,41 @@
-﻿using LearningSystem.Data;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using LearningSystem.Data;
 using LearningSystem.Data.Models;
+using LearningSystem.Services.Constants;
 using LearningSystem.Services.Interfaces;
+using LearningSystem.Services.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace LearningSystem.Services.Implementations
 {
-    public class CourseService : ICourseService
+    public class CourseService : AbstractService, ICourseService
     {
-        private LearningSystemDbContext db;
-
-        public CourseService(LearningSystemDbContext db)
+        public CourseService(LearningSystemDbContext db, IMapper mapper) 
+            : base(db, mapper)
         {
-            this.db = db;
         }
 
-        public void CreateCourse(Course course)
+        public void Create(Course course)
         {
-            this.db.Courses.Add(course);
-            this.db.SaveChanges();
+            base.db.Courses.Add(course);
+            base.db.SaveChanges();
+        }
+
+        public List<CourseSummaryServiceModel> AllByPages(int page = PageConstants.DefaultPage)
+        {
+            var courses = base.db
+                .Courses
+                .OrderBy(c => c.StartDate)
+                .Skip(PageConstants.PageSize * (page - 1))
+                .Take(PageConstants.PageSize)
+                .ProjectTo<CourseSummaryServiceModel>(base.mapper.ConfigurationProvider)
+                .ToList();
+
+            return courses;
         }
     }
 }

@@ -1,44 +1,37 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using LearningSystem.Data;
-using LearningSystem.Data.Models;
+using LearningSystem.Services.Constants;
 using LearningSystem.Services.Interfaces;
 using LearningSystem.Services.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LearningSystem.Services.Implementations
 {
-    public class UserService : IUserService
+    public class UserService : AbstractService, IUserService
     {
-        private const int PageSize = 20;
-        private LearningSystemDbContext db;
-        private IMapper mapper;
-
-        public UserService(LearningSystemDbContext db, IMapper mapper)
+        public UserService(LearningSystemDbContext db, IMapper mapper) 
+            : base(db, mapper)
         {
-            this.db = db;
-            this.mapper = mapper;
         }
 
-        public List<UserListingServiceModel> AllUsersListing(int page = 1)
+        public List<UserListingServiceModel> AllByPages(int page = PageConstants.DefaultPage)
         {
-            var userListing = this.db
+            var userListing = base.db
                 .Users
                 .OrderBy(u => u.UserName)
-                .Skip(PageSize * (page - 1))
-                .Take(PageSize)
-                .ProjectTo<UserListingServiceModel>(this.mapper.ConfigurationProvider)
+                .Skip(PageConstants.PageSize * (page - 1))
+                .Take(PageConstants.PageSize)
+                .ProjectTo<UserListingServiceModel>(base.mapper.ConfigurationProvider)
                 .ToList();
 
             return userListing;
         }
 
-        public List<string> FindUsersByRole(string roleName)
+        public List<string> FindIdsByRole(string roleName)
         {
-            var role = this.db
+            var role = base.db
                 .Roles
                 .FirstOrDefault(r => r.Name == roleName);
 
@@ -47,7 +40,7 @@ namespace LearningSystem.Services.Implementations
                 return null;
             }
 
-            var userIds = this.db
+            var userIds = base.db
                 .UserRoles
                 .Where(ur => ur.RoleId == role.Id)
                 .Select(ur => ur.UserId)

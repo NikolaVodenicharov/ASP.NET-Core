@@ -1,4 +1,5 @@
-﻿using LearningSystem.Services.Models;
+﻿using LearningSystem.Services.Constants;
+using LearningSystem.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,8 @@ namespace LearningSystem.Services.Interfaces
 {
     public interface IUserService
     {
-        List<UserListingServiceModel> AllUsersListing(int page = 1);
+        List<UserListingServiceModel> AllByPages(int page = PageConstants.DefaultPage);
 
-        List<string> FindUsersByRole(string roleName);
+        List<string> FindIdsByRole(string roleName);
     }
 }

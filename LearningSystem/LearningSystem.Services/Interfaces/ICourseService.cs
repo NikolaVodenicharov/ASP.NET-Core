@@ -12,5 +12,7 @@ namespace LearningSystem.Services.Interfaces
         void Create(Course course);
 
         List<CourseSummaryServiceModel> AllByPages(int page = PageConstants.DefaultPage);
+
+        void SingInUser(CourseUser courseUser);
     }
 }

@@ -1,0 +1,41 @@
+﻿@model CoursesSummaryUserIdViewModel
+@{
+    ViewData["Title"] = "All by pages";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-bordered table-hover table-dark table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Start date</th>
+            @if (Model.UserId != null)
+            {
+                <th>Options</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model.Courses)
+        {
+        <tr>
+            <td>@course.Name</td>
+            <td>@course.StartDate</td>
+            @if (Model.UserId != null)
+            {
+                <td>
+                    <form method="post" asp-controller="Course" asp-action="SingInUser">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <input type="hidden" name="CourseId" value="@course.Id" />
+                            <input type="hidden" name="UserId" value="@Model.UserId" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sing in</button>
+                    </form>
+                </td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>

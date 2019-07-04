@@ -37,5 +37,11 @@ namespace LearningSystem.Services.Implementations
 
             return courses;
         }
+
+        public void SingInUser(CourseUser courseUser)
+        {
+            base.db.CourseUsers.Add(courseUser);
+            base.db.SaveChanges();
+        }
     }
 }

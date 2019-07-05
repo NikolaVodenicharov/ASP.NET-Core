@@ -27,15 +27,13 @@ namespace LearningSystem.Services.Implementations
 
         public List<CourseSummaryServiceModel> AllByPages(int page = PageConstants.DefaultPage)
         {
-            var courses = base.db
+            return base.db
                 .Courses
                 .OrderBy(c => c.StartDate)
                 .Skip(PageConstants.PageSize * (page - 1))
                 .Take(PageConstants.PageSize)
                 .ProjectTo<CourseSummaryServiceModel>(base.mapper.ConfigurationProvider)
                 .ToList();
-
-            return courses;
         }
 
         public void SingInUser(CourseUser courseUser)

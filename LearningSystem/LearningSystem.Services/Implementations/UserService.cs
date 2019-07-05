@@ -18,15 +18,13 @@ namespace LearningSystem.Services.Implementations
 
         public List<UserListingServiceModel> AllByPages(int page = PageConstants.DefaultPage)
         {
-            var userListing = base.db
+            return base.db
                 .Users
                 .OrderBy(u => u.UserName)
                 .Skip(PageConstants.PageSize * (page - 1))
                 .Take(PageConstants.PageSize)
                 .ProjectTo<UserListingServiceModel>(base.mapper.ConfigurationProvider)
                 .ToList();
-
-            return userListing;
         }
 
         public List<string> FindIdsByRole(string roleName)
@@ -40,13 +38,11 @@ namespace LearningSystem.Services.Implementations
                 return null;
             }
 
-            var userIds = base.db
+            return base.db
                 .UserRoles
                 .Where(ur => ur.RoleId == role.Id)
                 .Select(ur => ur.UserId)
                 .ToList();
-
-            return userIds;
         }
     }
 }

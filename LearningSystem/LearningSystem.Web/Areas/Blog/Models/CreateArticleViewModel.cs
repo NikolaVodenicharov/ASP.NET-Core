@@ -19,10 +19,6 @@ namespace LearningSystem.Web.Areas.Blog.Models
         public string Content { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateTime PublishDate { get; set; }
-
-        [Required]
         public string AuthorId { get; set; }
 
         public List<SelectListItem> Authors { get; set; }

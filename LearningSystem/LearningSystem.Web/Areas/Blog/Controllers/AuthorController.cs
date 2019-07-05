@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -71,13 +72,13 @@ namespace LearningSystem.Web.Areas.Blog.Controllers
             {
                 Title = model.Title,
                 Content = model.Content,
-                PublishDate = model.PublishDate,
+                PublishDate = DateTime.UtcNow.Date,
                 AuthorId = model.AuthorId
             };
 
             this.articleService.CreateArticle(article);
-
-            return Redirect("/Home/Index");
+            
+            return Redirect("/Article/AllByPages");
         }
     }
 }

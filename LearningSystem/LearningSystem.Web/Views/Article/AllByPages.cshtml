@@ -1,0 +1,28 @@
+﻿@model  List<ArticleSummaryServiceModel>
+
+@{
+    ViewData["Title"]="All articles by pages" ;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+<table class="table table-bordered table-hover table-dark table-striped table-sm">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var article in Model)
+        {
+            <tr>
+                <td>@article.Title</td>
+                <td>
+                    <a class="btn btn-info" href="Details/@article.Id">Read</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

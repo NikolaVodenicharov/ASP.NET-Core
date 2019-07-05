@@ -1,0 +1,10 @@
+﻿@model  ArticleServiceModel
+@{
+    ViewData["Title"] = "Article";
+}
+
+<h1 class="text-center">@Model.Title</h1>
+<h6 class="text-right">@Model.PublishDate.ToShortDateString()</h6>
+<h5 class="text-right">Wrote by @Model.AuthorUserName</h5>
+
+<p>@Model.Content</p>

@@ -72,7 +72,7 @@ namespace LearningSystem.Web.Areas.Blog.Controllers
             {
                 Title = model.Title,
                 Content = model.Content,
-                PublishDate = DateTime.UtcNow.Date,
+                PublishDate = DateTime.UtcNow,
                 AuthorId = model.AuthorId
             };
 

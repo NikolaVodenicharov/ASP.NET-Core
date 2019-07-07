@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace LearningSystem.Web.Infrastructure.Constants
 {
-    public class ExtensionConstants
+    public static class ExtensionConstants
     {
+        public const string TempDataSuccessMessageKey = "SuccessMessage";
     }
 }

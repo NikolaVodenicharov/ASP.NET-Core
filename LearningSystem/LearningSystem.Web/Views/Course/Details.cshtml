@@ -1,0 +1,54 @@
+﻿@model  CourseDetailsViewModel
+@{
+    ViewData["Title"] = $"{Model.Name} details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="col-md-4">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="StartDate"></label>
+        <input asp-for="StartDate" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="EndDate"></label>
+        <input asp-for="EndDate" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="TrainerUserName"></label>
+        <input asp-for="TrainerUserName" class="form-control" disabled />
+    </div>
+
+    @if (User != null)
+    {
+        if (Model.IsUserSingIn)
+        {
+            <form method="post" asp-controller="Course" asp-action="SingOutUser">
+                <div class="form-group">
+                    <input type="hidden" name="CourseId" value="@Model.Id" />
+                    <input type="hidden" name="UserId" value="@Model.Userid" />
+                </div>
+                <button type="submit" class="btn btn-danger">Sing out</button>
+            </form>
+        }
+        else
+        {
+            <form method="post" asp-controller="Course" asp-action="SingInUser">
+                <div class="form-group">
+                    <input type="hidden" name="CourseId" value="@Model.Id" />
+                    <input type="hidden" name="UserId" value="@Model.Userid" />
+                </div>
+                <button type="submit" class="btn btn-success">Sing in</button>
+            </form>
+        }
+    }
+</div>
+

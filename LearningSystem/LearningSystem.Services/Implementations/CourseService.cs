@@ -5,6 +5,7 @@ using LearningSystem.Data.Models;
 using LearningSystem.Services.Constants;
 using LearningSystem.Services.Interfaces;
 using LearningSystem.Services.Models;
+using LearningSystem.Services.Models.Courses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,9 +37,31 @@ namespace LearningSystem.Services.Implementations
                 .ToList();
         }
 
+        public CourseServiceModel GetById(int id)
+        {
+            return this.db
+                .Courses
+                .Where(c => c.Id == id)
+                .ProjectTo<CourseServiceModel>(base.mapper.ConfigurationProvider)
+                .FirstOrDefault();
+        }
+
+        public bool IsUserSingIn (int courseId, string userId)
+        {
+            return this.db
+                .CourseUsers
+                .Any(cu => cu.CourseId == courseId && cu.UserId == userId);
+        }
+
         public void SingInUser(CourseUser courseUser)
         {
             base.db.CourseUsers.Add(courseUser);
+            base.db.SaveChanges();
+        }
+
+        public void SingOutUser(CourseUser courseUser)
+        {
+            base.db.CourseUsers.Remove(courseUser);
             base.db.SaveChanges();
         }
     }

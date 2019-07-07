@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LearningSystem.Web.Infrastructure.Constants;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace LearningSystem.Web.Infrastructure.Extensions
 {
     public static class TempDataDictionaryExtensions
     {
-        private const string TempDataSuccessMessageKey = "SuccessMessage";
+        /// <summary>
+        /// Can add to controllers success message that is displayed from the Layout view before rendering the body.
+        /// </summary>
         public static void AddSuccessMessage(this ITempDataDictionary tempDate, string message)
         {
-            tempDate[TempDataSuccessMessageKey] = string message
+            tempDate[ExtensionConstants.TempDataSuccessMessageKey] = message;
         }
     }
 }

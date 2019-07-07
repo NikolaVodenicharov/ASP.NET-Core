@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LearningSystem.Web.Models
+namespace LearningSystem.Web.Models.Courses
 {
     public class CoursesSummaryUserIdViewModel
     {

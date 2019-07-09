@@ -1,0 +1,23 @@
+﻿@model CoursesSummaryUserIdViewModel
+
+<table class="table table-bordered table-hover table-dark table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Start date</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model.Courses)
+        {
+            <tr>
+                <td>@course.Name</td>
+                <td>@course.StartDate</td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,8 @@
+﻿@model CoursesSummaryUserIdViewModel
+@{
+    ViewData["Title"] = "All training courses by pages";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@await Html.PartialAsync("~/Views/Course/_AllCoursesByPages.cshtml", Model);

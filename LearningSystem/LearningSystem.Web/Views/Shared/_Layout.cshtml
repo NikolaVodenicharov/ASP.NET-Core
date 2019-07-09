@@ -36,6 +36,19 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="AllByPages">Articles</a>
                         </li>
 
+                        @if (User.IsInRole(RoleConstants.Administrator) || User.IsInRole(RoleConstants.Trainer))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Trainer
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Trainer" asp-action="AllTrainingCoursesByPages">Training courses</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                </div>
+                            </li>
+                        }
+
                         @if (User.IsInRole(RoleConstants.Administrator) || User.IsInRole(RoleConstants.BlogAuthor))
                         {
                             <li class="nav-item dropdown">

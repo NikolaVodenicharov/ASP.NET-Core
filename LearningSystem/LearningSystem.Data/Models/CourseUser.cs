@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LearningSystem.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,5 +12,7 @@ namespace LearningSystem.Data.Models
 
         public User User { get; set; }
         public string UserId { get; set; }
+
+        public StudentGrade? StudentGrade { get; set; }
     }
 }

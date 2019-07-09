@@ -14,6 +14,8 @@ namespace LearningSystem.Services.Interfaces
 
         List<CourseSummaryServiceModel> AllByPages(int page = PageConstants.DefaultPage);
 
+        List<CourseSummaryServiceModel> AllByStudentByPages(string studentId, int page = PageConstants.DefaultPage);
+
         CourseServiceModel GetById(int id);
 
         bool IsUserSingIn(int courseId, string userId);

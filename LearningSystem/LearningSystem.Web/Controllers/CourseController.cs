@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LearningSystem.Data.Models;
 using LearningSystem.Services.Interfaces;
+using LearningSystem.Web.Infrastructure.Attributes;
 using LearningSystem.Web.Infrastructure.Extensions;
 using LearningSystem.Web.Models.Courses;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LearningSystem.Web.Controllers
 {
-    [Route("Course")]
+    [RouteController(nameof(CourseController))]
     public class CourseController : Controller
     {
         private readonly ICourseService courseService;

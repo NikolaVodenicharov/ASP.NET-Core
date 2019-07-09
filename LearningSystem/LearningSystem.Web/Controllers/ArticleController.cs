@@ -1,4 +1,5 @@
 ﻿using LearningSystem.Services.Interfaces;
+using LearningSystem.Web.Infrastructure.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LearningSystem.Web.Controllers
 {
-    [Route("Article")]
+    [RouteController(nameof(ArticleController))]
     public class ArticleController : Controller
     {
         private readonly IArticleService articleService;

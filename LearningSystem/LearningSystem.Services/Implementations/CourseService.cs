@@ -37,6 +37,21 @@ namespace LearningSystem.Services.Implementations
                 .ToList();
         }
 
+        public List<CourseSummaryServiceModel> AllByStudentByPages(string studentId, int page = PageConstants.DefaultPage)
+        {
+            var result = base.db
+                .CourseUsers
+                .Where(cu => cu.UserId == studentId)
+                .Select(cu => cu.Course)
+                .OrderBy(c => c.StartDate)
+                .Skip(PageConstants.PageSize * (page - 1))
+                .Take(PageConstants.PageSize)
+                .ProjectTo<CourseSummaryServiceModel>(base.mapper.ConfigurationProvider)
+                .ToList();
+
+            return result;
+        }
+
         public CourseServiceModel GetById(int id)
         {
             return this.db

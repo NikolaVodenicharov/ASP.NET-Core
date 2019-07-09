@@ -2,6 +2,7 @@
 using LearningSystem.Services.Interfaces;
 using LearningSystem.Web.Areas.Administrator.Models.Courses;
 using LearningSystem.Web.Infrastructure;
+using LearningSystem.Web.Infrastructure.Attributes;
 using LearningSystem.Web.Infrastructure.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +15,7 @@ namespace LearningSystem.Web.Areas.Administrator.Controllers
 {
     [Area("Administrator")]
     [Authorize(Roles = RoleConstants.Administrator)]
-    [Route("CourseAdministrator")]
+    [RouteController(nameof(CourseAdministratorController))]
     public class CourseAdministratorController : Controller
     {
         private readonly UserManager<User> userManager;

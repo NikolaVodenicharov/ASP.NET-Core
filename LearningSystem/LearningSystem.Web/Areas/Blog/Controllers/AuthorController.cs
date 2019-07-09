@@ -1,6 +1,7 @@
 ﻿using LearningSystem.Data.Models;
 using LearningSystem.Services.Interfaces;
 using LearningSystem.Web.Areas.Blog.Models;
+using LearningSystem.Web.Infrastructure.Attributes;
 using LearningSystem.Web.Infrastructure.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +15,7 @@ namespace LearningSystem.Web.Areas.Blog.Controllers
 {
     [Area("Blog")]
     [Authorize(Roles = RoleConstants.BlogAuthor + ", " + RoleConstants.Administrator)]
-    [Route("Author")]
+    [RouteController(nameof(AuthorController))]
     public class AuthorController : Controller
     {
         private readonly UserManager<User> userManager;

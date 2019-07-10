@@ -21,22 +21,25 @@ namespace LearningSystem.Web.Controllers
     {
         private UserManager<User> userManager;
         private readonly ITrainerService trainerService;
+        private readonly ICourseService courseService;
 
-        public TrainerController(UserManager<User> userManager, ITrainerService trainerService)
+        public TrainerController(UserManager<User> userManager, ITrainerService trainerService, ICourseService courseService)
         {
             this.userManager = userManager;
             this.trainerService = trainerService;
+            this.courseService = courseService;
         }
 
-        [Route(nameof(AllTrainingCoursesByPages))]
-        public IActionResult AllTrainingCoursesByPages()
+        [Route(nameof(AllCourses))]
+        public IActionResult AllCourses(string searchString = null, int page = 1)
         {
             var trainerId = this.userManager.GetUserId(User);
 
-            var model = new CoursesSummaryUserIdViewModel
+            var model = new CoursesSummaryViewModel
             {
-                Courses = this.trainerService.AllCoursesByPages(trainerId),
-                UserId = trainerId
+                Courses = this.courseService.AllByTrainer(trainerId, searchString, page),
+                LoggedUserId = trainerId,
+                SearchString = searchString
             };
 
             return View(model);

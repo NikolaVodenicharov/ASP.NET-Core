@@ -12,11 +12,16 @@ namespace LearningSystem.Services.Interfaces
     {
         void Create(Course course);
 
-        List<CourseSummaryServiceModel> AllByPages(int page = PageConstants.DefaultPage);
 
-        List<CourseSummaryServiceModel> AllByStudentByPages(string studentId, int page = PageConstants.DefaultPage);
+        List<CourseSummaryServiceModel> All(string namePart = null, int page = PageConstants.DefaultPage);
+
+        List<CourseSummaryServiceModel> AllByStudent(string studentId, string searchString = null, int page = PageConstants.DefaultPage);
+
+        List<CourseSummaryServiceModel> AllByTrainer(string trainerId, string searchString = null, int page = PageConstants.DefaultPage);
+
 
         CourseServiceModel GetById(int id);
+
 
         bool IsUserSingIn(int courseId, string userId);
 

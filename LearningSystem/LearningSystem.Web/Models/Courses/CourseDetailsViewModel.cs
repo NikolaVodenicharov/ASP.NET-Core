@@ -21,7 +21,7 @@ namespace LearningSystem.Web.Models.Courses
 
         public string TrainerUserName { get; set; }
 
-        public string Userid { get; set; }
+        public string LoggedUserid { get; set; }
 
         public bool IsUserSingIn { get; set; }
     }

@@ -80,7 +80,7 @@ namespace LearningSystem.Web.Areas.Administrator.Controllers
 
             this.courseService.Create(course);
 
-            return Redirect("/Course/AllByPages");
+            return Redirect("/Course/All");
         }
     }
 }

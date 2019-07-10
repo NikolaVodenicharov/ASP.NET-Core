@@ -26,14 +26,15 @@ namespace LearningSystem.Web.Controllers
         }
 
         [Route(nameof(SignedCourses))]
-        public IActionResult SignedCourses()
+        public IActionResult SignedCourses(string searchString = null, int page = 1)
         {
             var studentId = this.userManager.GetUserId(base.User);
 
-            var model = new CoursesSummaryUserIdViewModel
+            var model = new CoursesSummaryViewModel
             {
-                Courses = this.courseService.AllByStudentByPages(studentId),
-                UserId = studentId
+                Courses = this.courseService.AllByStudent(studentId, searchString, page),
+                LoggedUserId = studentId,
+                SearchString = searchString
             };
 
             return View(model);

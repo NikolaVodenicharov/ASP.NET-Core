@@ -34,7 +34,7 @@
             <form method="post" asp-controller="Course" asp-action="SingOutUser">
                 <div class="form-group">
                     <input type="hidden" name="CourseId" value="@Model.Id" />
-                    <input type="hidden" name="UserId" value="@Model.Userid" />
+                    <input type="hidden" name="UserId" value="@Model.LoggedUserid" />
                 </div>
                 <button type="submit" class="btn btn-danger">Sing out</button>
             </form>
@@ -44,7 +44,7 @@
             <form method="post" asp-controller="Course" asp-action="SingInUser">
                 <div class="form-group">
                     <input type="hidden" name="CourseId" value="@Model.Id" />
-                    <input type="hidden" name="UserId" value="@Model.Userid" />
+                    <input type="hidden" name="UserId" value="@Model.LoggedUserid" />
                 </div>
                 <button type="submit" class="btn btn-success">Sing in</button>
             </form>

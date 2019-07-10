@@ -8,8 +8,6 @@ namespace LearningSystem.Services.Interfaces
 {
     public interface ITrainerService
     {
-        List<CourseSummaryServiceModel> AllCoursesByPages(string trainerId, int page = PageConstants.DefaultPage);
-
         CourseWithStudentsSummaryServiceModel CourseDetails(int courseId);
 
         bool SetGrade(int courseId, string studentId, StudentGrade grade);

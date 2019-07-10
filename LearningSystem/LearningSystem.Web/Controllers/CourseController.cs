@@ -23,18 +23,19 @@ namespace LearningSystem.Web.Controllers
             this.mapper = mapper;
         }
 
-        [Route(nameof(AllByPages))]
-        public IActionResult AllByPages()
+        [Route(nameof(All))]
+        public IActionResult All(string searchString = null, int page = 1)
         {
-            var model = new CoursesSummaryUserIdViewModel
+            var model = new CoursesSummaryViewModel
             {
-                Courses = this.courseService.AllByPages()
+                Courses = this.courseService.All(searchString, page),
+                SearchString = searchString
             };
 
             var isAuthenticated = User.Identity.IsAuthenticated;
             if (isAuthenticated)
             {
-                model.UserId = this.userManager.GetUserId(User);
+                model.LoggedUserId = this.userManager.GetUserId(User);
             }
 
             return View(model);
@@ -53,18 +54,18 @@ namespace LearningSystem.Web.Controllers
         }
         private void AddUserId(CourseDetailsViewModel model)
         {
-            var isAuthenticated = User.Identity.IsAuthenticated;
+            var isAuthenticated = base.User.Identity.IsAuthenticated;
             if (!isAuthenticated)
             {
                 return;
             }
 
             var userId = this.userManager.GetUserId(User);
-            model.Userid = userId;
+            model.LoggedUserid = userId;
         }
         private void AddSingInStatus(CourseDetailsViewModel model)
         {
-            var userId = model.Userid;
+            var userId = model.LoggedUserid;
             if (userId == null)
             {
                 return;
@@ -80,13 +81,13 @@ namespace LearningSystem.Web.Controllers
         {
             if (model.CourseId == 0 || model.UserId == null)
             {
-                return RedirectToAction(nameof(AllByPages));
+                return RedirectToAction(nameof(All));
             }
 
             this.courseService.SingInUser(model);
             this.TempData.AddSuccessMessage("Sing in is successful.");
 
-            return RedirectToAction(nameof(AllByPages));
+            return RedirectToAction(nameof(All));
         }
 
         [HttpPost]
@@ -95,13 +96,13 @@ namespace LearningSystem.Web.Controllers
         {
             if (model.CourseId == 0 || model.UserId == null)
             {
-                return RedirectToAction(nameof(AllByPages));
+                return RedirectToAction(nameof(All));
             }
 
             this.courseService.SingOutUser(model);
             this.TempData.AddSuccessMessage("Sing out is successful.");
 
-            return RedirectToAction(nameof(AllByPages));
+            return RedirectToAction(nameof(All));
         }
     }
 }

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace LearningSystem.Web.Models.Courses
 {
-    public class CoursesSummaryUserIdViewModel
+    public class CoursesSummaryViewModel
     {
         public IEnumerable<CourseSummaryServiceModel> Courses { get; set; }
-        public string UserId { get; set; }
+        public string LoggedUserId { get; set; }
+        public string SearchString { get; set; }
     }
 }

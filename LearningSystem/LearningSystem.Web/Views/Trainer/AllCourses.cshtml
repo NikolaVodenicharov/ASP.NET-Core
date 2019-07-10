@@ -1,11 +1,11 @@
 ﻿@model CoursesSummaryViewModel
 @{
-    ViewData["Title"] = "My signed courses";
+    ViewData["Title"] = "All training courses by pages";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<form asp-controller="User" asp-action="SignedCourses">
+<form asp-controller="Trainer" asp-action="AllCourses">
     @await Html.PartialAsync("~/Views/Course/_TitleSearchBox.cshtml", Model)
 </form>
 

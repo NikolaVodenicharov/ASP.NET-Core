@@ -22,6 +22,8 @@ namespace LearningSystem.Services.Interfaces
 
         CourseServiceModel GetById(int id);
 
+        bool SaveSubmitedExam(int courseId, string studentId, byte[] exam);
+
 
         bool IsUserSingIn(int courseId, string userId);
 

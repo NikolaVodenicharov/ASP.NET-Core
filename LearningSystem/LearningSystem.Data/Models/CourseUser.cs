@@ -1,6 +1,8 @@
-﻿using LearningSystem.Data.Enums;
+﻿using LearningSystem.Data.Constants;
+using LearningSystem.Data.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace LearningSystem.Data.Models
@@ -14,5 +16,8 @@ namespace LearningSystem.Data.Models
         public string UserId { get; set; }
 
         public StudentGrade? StudentGrade { get; set; }
+
+        [MaxLength(CourseUserConstants.ExamSubmissionMaxSize)]
+        public byte[] ExamSubmission { get; set; }
     }
 }

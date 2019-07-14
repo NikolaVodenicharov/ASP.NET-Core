@@ -1,17 +1,24 @@
 ﻿using AutoMapper;
+using LearningSystem.Data.Constants;
 using LearningSystem.Data.Models;
 using LearningSystem.Services.Interfaces;
 using LearningSystem.Web.Infrastructure.Attributes;
+using LearningSystem.Web.Infrastructure.Constants;
 using LearningSystem.Web.Infrastructure.Extensions;
 using LearningSystem.Web.Models.Courses;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace LearningSystem.Web.Controllers
 {
     [RouteController(nameof(CourseController))]
     public class CourseController : Controller
     {
+        public const string ZipFileExtension = ".zip";
+
         private readonly ICourseService courseService;
         private readonly UserManager<User> userManager;
         private readonly IMapper mapper;
@@ -73,6 +80,40 @@ namespace LearningSystem.Web.Controllers
 
             var isUserSingInCourse = this.courseService.IsUserSingIn(model.Id, userId);
             model.IsUserSingIn = isUserSingInCourse;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route(nameof(SubmitExam))]
+        public IActionResult SubmitExam(int courseId, string studentId, IFormFile examSubmission)
+        {
+            if (courseId < 1 || studentId == null)
+            {
+                return BadRequest();
+            }
+
+            if (examSubmission.Length > CourseUserConstants.ExamSubmissionMaxSize || !examSubmission.FileName.EndsWith(ZipFileExtension))
+            {
+                base.TempData.AddSuccessMessage($"The file must be less than {CourseUserConstants.ExamSubmissionMaxSize} and must be of type {ZipFileExtension}.");
+
+                return RedirectToAction(nameof(Details), new { courseId });
+            }
+
+            using (var memoryStream = new MemoryStream())
+            {
+                examSubmission.CopyToAsync(memoryStream);
+                var examBytes = memoryStream.ToArray();
+
+                var isSuccessful = this.courseService.SaveSubmitedExam(courseId, studentId, examBytes);
+
+                if (!isSuccessful)
+                {
+                    return BadRequest();
+                }
+
+            };
+
+            return RedirectToAction(nameof(All));
         }
 
         [HttpPost]

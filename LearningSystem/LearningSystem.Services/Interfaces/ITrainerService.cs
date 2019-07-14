@@ -11,5 +11,9 @@ namespace LearningSystem.Services.Interfaces
         CourseWithStudentsSummaryServiceModel CourseDetails(int courseId);
 
         bool SetGrade(int courseId, string studentId, StudentGrade grade);
+
+        byte[] GetStudentExamSubmission(string studentId, int courseId);
+
+        bool IsCourseTrainer(string trainerId, int courseId);
     }
 }

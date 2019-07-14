@@ -6,6 +6,7 @@ using LearningSystem.Services.Constants;
 using LearningSystem.Services.Interfaces;
 using LearningSystem.Services.Models;
 using LearningSystem.Services.Models.Courses;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,6 +93,23 @@ namespace LearningSystem.Services.Implementations
                 .FirstOrDefault();
         }
 
+
+        public bool SaveSubmitedExam(int courseId, string studentId, byte[] examSubmission)
+        {
+            var courseUser = this.db
+                .CourseUsers
+                .Find(courseId, studentId);
+
+            if (courseUser == null)
+            {
+                return false;
+            }
+
+            courseUser.ExamSubmission = examSubmission;
+            db.SaveChanges();
+
+            return true;
+        }
 
         public bool IsUserSingIn (int courseId, string userId)
         {

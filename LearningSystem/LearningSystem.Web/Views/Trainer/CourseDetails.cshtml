@@ -30,24 +30,35 @@
         <tr>
             <th>Student</th>
             <th>Grade</th>
+            <th>Exam submission</th>
             <th>Set grade</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var student in Model.Students)
         {
-            <tr>
-                <td>@student.UserName</td>
-                <td>@(student.StudentGrade != null ? student.StudentGrade.ToString() : "No grade")</td>
+        <tr>
+            <td>@student.UserName</td>
+            <td>@(student?.StudentGrade.ToString() ?? "No grade")</td>
+            @if (student.HasExamSubmission)
+            {
                 <td>
-                    <form method="post" asp-controller="Trainer" asp-action="SetGrade">
-                        <input hidden name="courseId" value="@Model.Id" />
-                        <input hidden name="studentId" value="@student.Id" />
-                        <select name="grade" asp-items="@Html.GetEnumSelectList<StudentGrade>()">Grade</select>
-                        <button type="submit" class="btn btn-success">Save grade</button>
-                    </form>
+                    <a asp-controller="Trainer" asp-action="DownloadExamSubmission" asp-route-courseId="@Model.Id" asp-route-studentId="@student.Id">Download</a>
                 </td>
-            </tr>
+            }
+            else
+            {
+                <td>No submission</td>
+            }
+            <td>
+                <form method="post" asp-controller="Trainer" asp-action="SetGrade">
+                    <input hidden name="courseId" value="@Model.Id" />
+                    <input hidden name="studentId" value="@student.Id" />
+                    <select name="grade" asp-items="@Html.GetEnumSelectList<StudentGrade>()">Grade</select>
+                    <button type="submit" class="btn btn-success">Save grade</button>
+                </form>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

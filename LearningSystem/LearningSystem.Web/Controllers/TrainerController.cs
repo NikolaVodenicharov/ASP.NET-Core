@@ -19,6 +19,8 @@ namespace LearningSystem.Web.Controllers
     [RouteController(nameof(TrainerController))]
     public class TrainerController : Controller
     {
+        public const string ZipContentType = "application/zip";
+
         private UserManager<User> userManager;
         private readonly ITrainerService trainerService;
         private readonly ICourseService courseService;
@@ -51,6 +53,29 @@ namespace LearningSystem.Web.Controllers
             var model = this.trainerService.CourseDetails(id);
 
             return View(model);
+        }
+
+        public IActionResult DownloadExamSubmission(int courseId, string studentId)
+        {
+            if (courseId < 1 || studentId == null)
+            {
+                return BadRequest();
+            }
+
+            var trainerId = this.userManager.GetUserId(User);
+            var isCourseTrainer = this.trainerService.IsCourseTrainer(trainerId, courseId);
+            if (!isCourseTrainer)
+            {
+                return BadRequest();
+            }
+
+            var examSubmission = this.trainerService.GetStudentExamSubmission(studentId, courseId);
+            if (examSubmission == null)
+            {
+                return BadRequest();
+            }
+
+            return File(examSubmission, ZipContentType);
         }
 
         [HttpPost]

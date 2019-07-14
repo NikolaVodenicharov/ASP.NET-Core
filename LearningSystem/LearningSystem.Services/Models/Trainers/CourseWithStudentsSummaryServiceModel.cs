@@ -19,6 +19,6 @@ namespace LearningSystem.Services.Models.Trainers
 
         public DateTime EndDate { get; set; }
 
-        public IEnumerable<UserWithGradeServiceModel> Students { get; set; }
+        public IEnumerable<UserExaminationServiceModel> Students { get; set; }
     }
 }

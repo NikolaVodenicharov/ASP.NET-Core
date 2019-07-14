@@ -8,8 +8,11 @@ using System.Text;
 
 namespace LearningSystem.Services.Models.Users
 {
-    public class UserWithGradeServiceModel : UserListingServiceModel
+    public class UserExaminationServiceModel : UserListingServiceModel
     {
         public StudentGrade? StudentGrade { get; set; }
+
+        public bool HasExamSubmission { get; set; }
+
     }
 }

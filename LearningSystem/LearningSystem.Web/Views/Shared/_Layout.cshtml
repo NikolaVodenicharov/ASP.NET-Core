@@ -83,10 +83,16 @@
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
-            @if (TempData.ContainsKey(ExtensionConstants.TempDataSuccessMessageKey))
+            @if (TempData.ContainsKey(TempDataDictionaryExtensions.SuccessMessageKey))
             {
                 <div class="alert alert-success">
-                    @TempData[ExtensionConstants.TempDataSuccessMessageKey]
+                    @TempData[TempDataDictionaryExtensions.SuccessMessageKey]
+                </div>
+            }
+            @if (TempData.ContainsKey(TempDataDictionaryExtensions.ErrorMessageKey))
+            {
+                <div class="alert alert-danger">
+                    @TempData[TempDataDictionaryExtensions.ErrorMessageKey]
                 </div>
             }
             @RenderBody()

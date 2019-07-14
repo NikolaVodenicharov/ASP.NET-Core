@@ -38,6 +38,18 @@
                 </div>
                 <button type="submit" class="btn btn-danger">Sing out</button>
             </form>
+
+            <form method="post" asp-controller="Course" asp-action="SubmitExam" enctype='multipart/form-data'>
+                <div class="form-group">
+                    <input type="hidden" name="courseId" value="@Model.Id" />
+                    <input type="hidden" name="studentId" value="@Model.LoggedUserid" />
+                </div>
+                <div>
+                    Upload your exam (.zip only)
+                    <input type="file" name="examSubmission" />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit file</button>
+            </form>
         }
         else
         {

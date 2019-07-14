@@ -38,11 +38,12 @@ namespace LearningSystem.Services.Implementations
                 .Where(c => c.Id == courseId)
                 .SelectMany(c => c
                     .CourseUsers
-                    .Select(cu => new UserWithGradeServiceModel
+                    .Select(cu => new UserExaminationServiceModel
                     {
                         Id = cu.User.Id,
                         UserName = cu.User.UserName,
-                        StudentGrade = cu.StudentGrade
+                        StudentGrade = cu.StudentGrade,
+                        HasExamSubmission = (cu.ExamSubmission != null && cu.ExamSubmission.Length > 0)
                     }))
                 .OrderBy(u => u.UserName)
                 .ToList();
@@ -65,6 +66,30 @@ namespace LearningSystem.Services.Implementations
             courseUser.StudentGrade = grade;
             this.db.SaveChanges();
             return true;
+        }
+
+        public byte[] GetStudentExamSubmission(string studentId, int courseId)
+        {
+            var result = this.db
+                .CourseUsers
+                .Find(courseId, studentId)
+                ?.ExamSubmission;
+
+            var courseUser = this.db.CourseUsers.Find(courseId, studentId);
+            if (courseUser != null)
+            {
+                var examSubmission = courseUser.ExamSubmission;
+            }
+
+            return result;
+        }
+
+        public bool IsCourseTrainer(string trainerId, int courseId)
+        {
+            return this.db
+                .Courses
+                .Find(courseId)
+                ?.TrainerId == trainerId;
         }
     }
 }

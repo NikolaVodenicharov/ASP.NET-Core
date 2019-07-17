@@ -7,7 +7,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <form asp-controller="Course" asp-action="All">
-    @await Html.PartialAsync("~/Views/Course/_TitleSearchBox.cshtml", Model)
+    @await Html.PartialAsync("~/Views/Course/_TitleSearchBox.cshtml", Model.SearchString)
 </form>
 
 @await Html.PartialAsync("~/Views/Course/_AllCoursesByPages.cshtml", Model)

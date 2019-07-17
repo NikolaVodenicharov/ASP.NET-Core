@@ -12,5 +12,9 @@ namespace LearningSystem.Services.Interfaces
         List<UserListingServiceModel> AllByPages(int page = PageConstants.DefaultPage);
 
         List<string> FindIdsByRole(string roleName);
+
+        bool HasStudentCertificate(string studentId, int courseId);
+
+        byte[] CreateCertificate(string studentId, int courseId);
     }
 }

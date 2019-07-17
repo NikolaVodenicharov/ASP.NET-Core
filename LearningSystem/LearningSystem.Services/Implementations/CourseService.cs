@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using LearningSystem.Data;
+using LearningSystem.Data.Enums;
 using LearningSystem.Data.Models;
 using LearningSystem.Services.Constants;
 using LearningSystem.Services.Interfaces;
 using LearningSystem.Services.Models;
 using LearningSystem.Services.Models.Courses;
+using LearningSystem.Services.Models.Users;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -84,12 +86,12 @@ namespace LearningSystem.Services.Implementations
         }
 
 
-        public CourseServiceModel GetById(int id)
+        public CourseDetailsServiceModel GetById(int id)
         {
             return this.db
                 .Courses
                 .Where(c => c.Id == id)
-                .ProjectTo<CourseServiceModel>(base.mapper.ConfigurationProvider)
+                .ProjectTo<CourseDetailsServiceModel>(base.mapper.ConfigurationProvider)
                 .FirstOrDefault();
         }
 
@@ -128,6 +130,25 @@ namespace LearningSystem.Services.Implementations
         {
             base.db.CourseUsers.Remove(courseUser);
             base.db.SaveChanges();
+        }
+
+        public List<UserExaminationServiceModel> AllStudentsInCourse(int courseId)
+        {
+            return this.db
+                .Courses
+                .Where(c => c.Id == courseId)
+                .SelectMany(c => c
+                    .CourseUsers
+                    .Select(cu => new UserExaminationServiceModel
+                    {
+                        Id = cu.User.Id,
+                        UserName = cu.User.UserName,
+                        StudentGrade = cu.StudentGrade,
+                        HasExamSubmission = (cu.ExamSubmission != null && cu.ExamSubmission.Length > 0)
+                    }))
+                .OrderBy(u => u.UserName)
+                .ToList();
+
         }
     }
 }

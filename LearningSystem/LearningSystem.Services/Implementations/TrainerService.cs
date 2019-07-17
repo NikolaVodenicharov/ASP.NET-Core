@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using LearningSystem.Data;
 using LearningSystem.Data.Enums;
-using LearningSystem.Services.Constants;
 using LearningSystem.Services.Interfaces;
-using LearningSystem.Services.Models;
-using LearningSystem.Services.Models.Trainers;
+using LearningSystem.Services.Models.Courses;
 using LearningSystem.Services.Models.Users;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace LearningSystem.Services.Implementations
@@ -70,18 +66,10 @@ namespace LearningSystem.Services.Implementations
 
         public byte[] GetStudentExamSubmission(string studentId, int courseId)
         {
-            var result = this.db
+            return this.db
                 .CourseUsers
                 .Find(courseId, studentId)
                 ?.ExamSubmission;
-
-            var courseUser = this.db.CourseUsers.Find(courseId, studentId);
-            if (courseUser != null)
-            {
-                var examSubmission = courseUser.ExamSubmission;
-            }
-
-            return result;
         }
 
         public bool IsCourseTrainer(string trainerId, int courseId)

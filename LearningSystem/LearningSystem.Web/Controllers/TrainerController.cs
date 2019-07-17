@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using LearningSystem.Data.Enums;
 using LearningSystem.Data.Models;
 using LearningSystem.Services.Interfaces;
@@ -9,15 +6,19 @@ using LearningSystem.Web.Infrastructure.Attributes;
 using LearningSystem.Web.Infrastructure.Constants;
 using LearningSystem.Web.Infrastructure.Extensions;
 using LearningSystem.Web.Models.Courses;
+using LearningSystem.Web.Models.Trainers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningSystem.Web.Controllers
 {
+    /// <summary>
+    /// All methods must check is the user authorized. There is private method for checking that, named RedirectUnauthorized.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Administrator + ", " + RoleConstants.Trainer)]
     [RouteController(nameof(TrainerController))]
-    public class TrainerController : Controller
+    public class TrainerController : AbstractController
     {
         public const string ZipContentType = "application/zip";
 
@@ -25,7 +26,8 @@ namespace LearningSystem.Web.Controllers
         private readonly ITrainerService trainerService;
         private readonly ICourseService courseService;
 
-        public TrainerController(UserManager<User> userManager, ITrainerService trainerService, ICourseService courseService)
+        public TrainerController(IMapper mapper, UserManager<User> userManager, ITrainerService trainerService, ICourseService courseService)
+            : base(mapper)
         {
             this.userManager = userManager;
             this.trainerService = trainerService;
@@ -35,22 +37,30 @@ namespace LearningSystem.Web.Controllers
         [Route(nameof(AllCourses))]
         public IActionResult AllCourses(string searchString = null, int page = 1)
         {
-            var trainerId = this.userManager.GetUserId(User);
+            this.RedirectUnauthorized();
 
             var model = new CoursesSummaryViewModel
             {
-                Courses = this.courseService.AllByTrainer(trainerId, searchString, page),
-                LoggedUserId = trainerId,
-                SearchString = searchString
+                Courses = this.courseService.All(searchString, page),
+                SearchString = searchString,
+                ControllerName = nameof(TrainerController).Replace("Controller", string.Empty),
+                ActionName = nameof(CourseDetails)
             };
 
             return View(model);
         }
 
         [Route(nameof(CourseDetails) + "/{id}")]
-        public IActionResult CourseDetails(int id)
+        public IActionResult CourseDetails(int Id)
         {
-            var model = this.trainerService.CourseDetails(id);
+            var courseDetailsServiceModel = this.courseService.GetById(Id);
+            // var model = this.trainerService.CourseDetails(courseId);
+
+            var model = new CourseUserExaminationViewModel
+            {
+                CourseDetails = this.mapper.Map<CourseDetailsViewModel>(courseDetailsServiceModel),
+                Students = this.courseService.AllStudentsInCourse(Id)
+            };
 
             return View(model);
         }
@@ -99,6 +109,24 @@ namespace LearningSystem.Web.Controllers
 
             TempData.AddSuccessMessage("Student grade was successful saved.");
             return RedirectToAction(nameof(CourseDetails), new { id = courseId });
+        }
+
+        /// <summary>
+        /// Check if the user is authorized to use trainer functionallity. If it is not, he is redirected to some base home page.
+        /// </summary>
+        private void RedirectUnauthorized()
+        {
+            if (base.User.IsInRole(RoleConstants.Trainer) || base.User.IsInRole(RoleConstants.Administrator))
+            {
+                return;
+            }
+
+            this.RedirectToAllCourses();
+        }
+        private IActionResult RedirectToAllCourses()
+        {
+            base.TempData.AddErrrorMessage($"You are not {RoleConstants.Administrator} or {RoleConstants.Trainer}, but you try to access trainers functionallity.");
+            return RedirectToRoute($"{nameof(CourseController).Replace("Controller", string.Empty) }/ All");
         }
     }
 }

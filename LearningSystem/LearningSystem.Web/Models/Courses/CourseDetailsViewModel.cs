@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LearningSystem.Web.Models.Courses
 {
-    public class CourseDetailsViewModel : IMapFrom<CourseServiceModel>
+    public class CourseDetailsViewModel : IMapFrom<CourseDetailsServiceModel>
     {
         public int Id { get; set; }
 
@@ -21,8 +21,5 @@ namespace LearningSystem.Web.Models.Courses
 
         public string TrainerUserName { get; set; }
 
-        public string LoggedUserid { get; set; }
-
-        public bool IsUserSingIn { get; set; }
     }
 }

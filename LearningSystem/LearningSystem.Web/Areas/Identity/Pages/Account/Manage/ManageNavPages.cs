@@ -7,7 +7,7 @@ namespace LearningSystem.Web.Areas.Identity.Pages.Account.Manage
     {
         public static string Index => "Index";
 
-        public static string MyCourses => "MyCourses";
+        public static string AllCourses => "AllCourses";
 
         public static string ChangePassword => "ChangePassword";
 
@@ -19,7 +19,7 @@ namespace LearningSystem.Web.Areas.Identity.Pages.Account.Manage
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
-        public static string MyCoursesNavClass(ViewContext viewContext) => PageNavClass(viewContext, MyCourses);
+        public static string AllCoursesNavClass(ViewContext viewContext) => PageNavClass(viewContext, AllCourses);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
 

@@ -1,0 +1,31 @@
+﻿@model CourseDetailsWithStudentViewModel
+
+@await Html.PartialAsync("~/Views/Course/_CourseDetails.cshtml", Model.CourseDetails)
+
+<form method="post" asp-controller="Course" asp-action="SingOutUser">
+    <div class="form-group">
+        <input type="hidden" name="CourseId" value="@Model.CourseDetails.Id" />
+        <input type="hidden" name="UserId" value="@Model.Userid" />
+    </div>
+    <button type="submit" class="btn btn-danger">Sing out</button>
+</form>
+
+<form method="post" asp-controller="Course" asp-action="SubmitExam" enctype='multipart/form-data'>
+    <div class="form-group">
+        <input type="hidden" name="courseId" value="@Model.CourseDetails.Id" />
+        <input type="hidden" name="studentId" value="@Model.Userid" />
+    </div>
+    <div>
+        Upload your exam (.zip only)
+        <input type="file" name="examSubmission" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit file</button>
+</form>
+
+@if (Model.HaveCertificate)
+{
+<div>
+    <a asp-controller="Student" asp-action="DownloadCertificate" asp-route-courseId="@Model.CourseDetails.Id" asp-route-studentId="@Model.Userid">Download Certificate</a>
+</div>
+
+}

@@ -2,6 +2,7 @@
 using LearningSystem.Services.Constants;
 using LearningSystem.Services.Models;
 using LearningSystem.Services.Models.Courses;
+using LearningSystem.Services.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,7 +21,7 @@ namespace LearningSystem.Services.Interfaces
         List<CourseSummaryServiceModel> AllByTrainer(string trainerId, string searchString = null, int page = PageConstants.DefaultPage);
 
 
-        CourseServiceModel GetById(int id);
+        CourseDetailsServiceModel GetById(int id);
 
         bool SaveSubmitedExam(int courseId, string studentId, byte[] exam);
 
@@ -30,5 +31,7 @@ namespace LearningSystem.Services.Interfaces
         void SingInUser(CourseUser courseUser);
 
         void SingOutUser(CourseUser courseUser);
+
+        List<UserExaminationServiceModel> AllStudentsInCourse(int courseId);
     }
 }

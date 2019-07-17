@@ -15,19 +15,18 @@ using System.IO;
 namespace LearningSystem.Web.Controllers
 {
     [RouteController(nameof(CourseController))]
-    public class CourseController : Controller
+    public class CourseController : AbstractController
     {
         public const string ZipFileExtension = ".zip";
 
         private readonly ICourseService courseService;
         private readonly UserManager<User> userManager;
-        private readonly IMapper mapper;
 
         public CourseController(ICourseService courseService, UserManager<User> userManager, IMapper mapper)
+            :base(mapper)
         {
             this.courseService = courseService;
             this.userManager = userManager;
-            this.mapper = mapper;
         }
 
         [Route(nameof(All))]
@@ -36,7 +35,9 @@ namespace LearningSystem.Web.Controllers
             var model = new CoursesSummaryViewModel
             {
                 Courses = this.courseService.All(searchString, page),
-                SearchString = searchString
+                SearchString = searchString,
+                ControllerName = nameof(CourseController).Replace("Controller", string.Empty),
+                ActionName = nameof(Details)
             };
 
             var isAuthenticated = User.Identity.IsAuthenticated;
@@ -53,13 +54,17 @@ namespace LearningSystem.Web.Controllers
         {
             var courseServiceModel = this.courseService.GetById(id);
 
-            var model = this.mapper.Map<CourseDetailsViewModel>(courseServiceModel);
+            var model = new CourseDetailsWithUserAuthenticationViewModel
+            {
+                CourseDetails = this.mapper.Map<CourseDetailsViewModel>(courseServiceModel)
+            };
+
             this.AddUserId(model);
             this.AddSingInStatus(model);
 
             return View(model);
         }
-        private void AddUserId(CourseDetailsViewModel model)
+        private void AddUserId(CourseDetailsWithUserAuthenticationViewModel model)
         {
             var isAuthenticated = base.User.Identity.IsAuthenticated;
             if (!isAuthenticated)
@@ -70,7 +75,7 @@ namespace LearningSystem.Web.Controllers
             var userId = this.userManager.GetUserId(User);
             model.LoggedUserid = userId;
         }
-        private void AddSingInStatus(CourseDetailsViewModel model)
+        private void AddSingInStatus(CourseDetailsWithUserAuthenticationViewModel model)
         {
             var userId = model.LoggedUserid;
             if (userId == null)
@@ -78,7 +83,7 @@ namespace LearningSystem.Web.Controllers
                 return;
             }
 
-            var isUserSingInCourse = this.courseService.IsUserSingIn(model.Id, userId);
+            var isUserSingInCourse = this.courseService.IsUserSingIn(model.CourseDetails.Id, userId);
             model.IsUserSingIn = isUserSingInCourse;
         }
 

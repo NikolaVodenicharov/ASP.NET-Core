@@ -1,8 +1,5 @@
 ﻿using LearningSystem.Data.Enums;
-using LearningSystem.Services.Constants;
-using LearningSystem.Services.Models;
-using LearningSystem.Services.Models.Trainers;
-using System.Collections.Generic;
+using LearningSystem.Services.Models.Courses;
 
 namespace LearningSystem.Services.Interfaces
 {

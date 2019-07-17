@@ -15,7 +15,7 @@
                 <td>@course.Name</td>
                 <td>@course.StartDate</td>
                 <td>
-                    <a class="btn btn-primary" asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">Details</a>
+                    <a class="btn btn-primary" asp-controller="@Model.ControllerName" asp-action="@Model.ActionName" asp-route-id="@course.Id">Details</a>
                 </td>
             </tr>
         }

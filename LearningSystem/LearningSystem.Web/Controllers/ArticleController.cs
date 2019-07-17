@@ -1,4 +1,5 @@
-﻿using LearningSystem.Services.Interfaces;
+﻿using AutoMapper;
+using LearningSystem.Services.Interfaces;
 using LearningSystem.Web.Infrastructure.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,12 @@ using System.Threading.Tasks;
 namespace LearningSystem.Web.Controllers
 {
     [RouteController(nameof(ArticleController))]
-    public class ArticleController : Controller
+    public class ArticleController : AbstractController
     {
         private readonly IArticleService articleService;
 
-        public ArticleController(IArticleService articleService)
+        public ArticleController(IMapper mapper, IArticleService articleService)
+            : base(mapper)
         {
             this.articleService = articleService;
         }

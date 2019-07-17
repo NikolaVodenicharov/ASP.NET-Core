@@ -1,31 +1,8 @@
-﻿@model CourseWithStudentsSummaryServiceModel
-@{
-    ViewData["Title"] = "Course details";
-}
+﻿@model CourseUserExaminationViewModel
 
-<h1>@ViewData["Title"]</h1>
+@await Html.PartialAsync("~/Views/Course/_CourseDetails.cshtml", Model.CourseDetails)
 
-<div class="col-md-4">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" disabled />
-    </div>
-    <div class="form-group">
-        <label asp-for="Description"></label>
-        <input asp-for="Description" class="form-control" disabled />
-    </div>
-    <div class="form-group">
-        <label asp-for="StartDate"></label>
-        <input asp-for="StartDate" type="date" class="form-control" disabled />
-    </div>
-    <div class="form-group">
-        <label asp-for="EndDate"></label>
-        <input asp-for="EndDate" type="date" class="form-control" disabled />
-    </div>
-</div>
-<br />
-
-<table class="table table-hover table-bordered" >
+<table class="table table-hover table-bordered">
     <thead>
         <tr>
             <th>Student</th>
@@ -37,28 +14,29 @@
     <tbody>
         @foreach (var student in Model.Students)
         {
-        <tr>
-            <td>@student.UserName</td>
-            <td>@(student?.StudentGrade.ToString() ?? "No grade")</td>
-            @if (student.HasExamSubmission)
-            {
+            <tr>
+                <td>@student.UserName</td>
+                <td>@(student?.StudentGrade.ToString() ?? "No grade")</td>
                 <td>
-                    <a asp-controller="Trainer" asp-action="DownloadExamSubmission" asp-route-courseId="@Model.Id" asp-route-studentId="@student.Id">Download</a>
+                    @if (student.HasExamSubmission)
+                    {
+                        <a asp-controller="Trainer" asp-action="DownloadExamSubmission" asp-route-courseId="@Model.CourseDetails.Id" asp-route-studentId="@student.Id">Download</a>
+                    }
+                    else
+                    {
+                        @: No submission
+                    }
                 </td>
-            }
-            else
-            {
-                <td>No submission</td>
-            }
-            <td>
-                <form method="post" asp-controller="Trainer" asp-action="SetGrade">
-                    <input hidden name="courseId" value="@Model.Id" />
-                    <input hidden name="studentId" value="@student.Id" />
-                    <select name="grade" asp-items="@Html.GetEnumSelectList<StudentGrade>()">Grade</select>
-                    <button type="submit" class="btn btn-success">Save grade</button>
-                </form>
-            </td>
-        </tr>
+
+                <td>
+                    <form method="post" asp-controller="Trainer" asp-action="SetGrade">
+                        <input hidden name="courseId" value="@Model.CourseDetails.Id" />
+                        <input hidden name="studentId" value="@student.Id" />
+                        <select name="grade" asp-items="@Html.GetEnumSelectList<StudentGrade>()">Grade</select>
+                        <button type="submit" class="btn btn-success">Save grade</button>
+                    </form>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

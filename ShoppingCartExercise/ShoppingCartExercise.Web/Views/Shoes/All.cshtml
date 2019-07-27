@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ShoeServiceModel>
+@{
+    ViewData["Title"] = "All shoes";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Options
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var shoe in Model)
+        {
+            <tr>
+                <td>@shoe.Name</td>
+                <td>@shoe.Price</td>
+                <td>
+                    <form method="post" asp-controller="Cart" asp-action="Add" asp-route-productId="@shoe.Id">
+                        <button type="submit" class="btn btn-primary">Add to cart</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
